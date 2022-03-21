@@ -5,15 +5,20 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import BookCard from '../components/Cards/BookCard';
+// require("../queries/create-table-books.sql")
 
-export default function Home() {
+export default function Home({ Message, Books }) {
+	console.log(Books);
 	const Item = styled(Paper)(({ theme }) => ({
 		...theme.typography.body2,
 		padding: theme.spacing(1),
 		textAlign: 'center',
 		color: theme.palette.text.secondary,
 	}));
-
+	if (Message) {
+		return <div>Connected</div>;
+	}
 	return (
 		<div className={styles.container}>
 			<Head>
@@ -36,9 +41,43 @@ export default function Home() {
 						<Item style={{ color: 'black', border: '1px solid black' }}>
 							Books
 						</Item>
+						<Grid container spacing={2} style={{ marginTop: '20px' }}>
+							{Books.map((e) => (
+								<Grid item xs={4} style={{ marginTop: '20px' }}>
+									<BookCard />
+								</Grid>
+							))}
+						</Grid>
 					</Grid>
 				</Grid>
 			</div>
 		</div>
 	);
+}
+export async function getServerSideProps({ req, res }) {
+	const mysqlClient = require('../utils/database_connection');
+	const promise = new Promise((resolve, reject) => {
+		mysqlClient.query('select * from books', (error, result, fields) => {
+			if (error) {
+				reject(error);
+			} else {
+				resolve(result);
+			}
+		});
+	});
+	const result = await promise;
+	// console.log(result);
+	const _result = [];
+	for (let i = 0; i < result.length; i++) {
+		let _res = JSON.stringify(result[i]);
+		_res = JSON.parse(_res);
+		_result.push(_res);
+	}
+	// console.log(_result);
+
+	return {
+		props: {
+			Books: _result,
+		},
+	};
 }
