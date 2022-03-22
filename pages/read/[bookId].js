@@ -8,7 +8,7 @@ function PdfViewer() {
 			WebViewer(
 				{
 					path: '/webviewer/lib',
-					initialDoc: '/2018331046-022PB73427.pdf',
+					initialDoc: '/uploads/1647951938033.pdf',
 				},
 				viewer.current
 			).then((instance) => {

@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
-const pages = ['Slides', 'Books', 'Notes'];
+const pages = ['Slides', 'Books', 'Notes', 'Contribute'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Appbar = () => {
