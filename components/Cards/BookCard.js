@@ -35,7 +35,7 @@ export default function BookCard({ info }) {
 	}));
 
 	return (
-		<Card sx={{ maxWidth: 345, backgroundColor: '#aeb6e9' }}>
+		<Card sx={{ maxWidth: 345 }} elevation={6}>
 			<CardMedia
 				component='img'
 				height='140'

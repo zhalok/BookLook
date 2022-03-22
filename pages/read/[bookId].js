@@ -8,14 +8,12 @@ function PdfViewer() {
 			WebViewer(
 				{
 					path: '/webviewer/lib',
-					initialDoc: '/files/2018331046-022PB73427.pdf',
+					initialDoc: '/2018331046-022PB73427.pdf',
 				},
 				viewer.current
 			).then((instance) => {
 				const { docViewer } = instance;
 				console.log(docViewer);
-				// console.log(viewer.current);
-				// console.log(docViewer);
 			});
 		});
 	}, []);
