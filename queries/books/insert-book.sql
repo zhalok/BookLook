@@ -5,4 +5,4 @@ INSERT INTO books(
     AUTHOR,PUBLISHER,UPLOADER_ID
     -- UPLOAD_DATE
 )
-VALUES('Vector','Math','calculus','Khairul Sir','Schaums Outline',12);
+VALUES('Laplace Transformation','Math','calculus','Khairul Sir','Schaums Outline',12);

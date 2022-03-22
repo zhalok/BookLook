@@ -21,21 +21,21 @@ import Grid from '@mui/material/Grid';
 // import Typography from '@mui/material/Typography';
 // import FolderIcon from '@mui/icons-material/Folder';
 // import DeleteIcon from '@mui/icons-material/Delete';
-
-export default function BookCard() {
-	const info = {
-		name: 'Vector Analysis',
-		author: 'Khairul Sir',
-		publisher: 'Schaums Outline',
-		edition: '6th',
-	};
+import Link from 'next/link';
+export default function BookCard({ info }) {
+	// const info = {
+	// 	name: 'Vector Analysis',
+	// 	author: 'Khairul Sir',
+	// 	publisher: 'Schaums Outline',
+	// 	edition: '6th',
+	// };
 
 	const Demo = styled('div')(({ theme }) => ({
 		backgroundColor: theme.palette.background.paper,
 	}));
 
 	return (
-		<Card sx={{ maxWidth: 345 }}>
+		<Card sx={{ maxWidth: 345, backgroundColor: '#aeb6e9' }}>
 			<CardMedia
 				component='img'
 				height='140'
@@ -44,22 +44,30 @@ export default function BookCard() {
 			/>
 			<CardContent>
 				<Typography gutterBottom variant='h5' component='div'>
-					{info.name}
+					{info.NAME}
 				</Typography>
 				<Demo>
 					<List>
-						<ListItem>Author: {info.author}</ListItem>
-						<ListItem>Publisher: {info.publisher}</ListItem>
-						<ListItem>Edition: {info.edition}</ListItem>
+						<ListItem>Author: {info.AUTHOR}</ListItem>
+						<ListItem>Publisher: {info.PUBLISHER}</ListItem>
+						<ListItem>Edition: {info.EDITION}</ListItem>
 					</List>
 				</Demo>
 			</CardContent>
 			<CardActions>
-				<Button variant='contained' fullWidth>
-					{' '}
-					Read{' '}
-				</Button>
-				<Button variant='contained' fullWidth color='success'>
+				<Link href='/read/123'>
+					<Button variant='contained' fullWidth>
+						{' '}
+						Read{' '}
+					</Button>
+				</Link>
+
+				<Button
+					variant='contained'
+					fullWidth
+					color='success'
+					onClick={() => {}}
+				>
 					{' '}
 					Download{' '}
 				</Button>

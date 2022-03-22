@@ -1,5 +1,6 @@
 use BookLook;
--- DROP TABLE BOOKS IF EXISTS;
+-- DROP TABLE  IF EXISTS;
+-- truncate table books;
 -- show tables;
 -- drop table books;
-select * from books;
+-- select * from books;
