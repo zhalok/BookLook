@@ -24,7 +24,7 @@ const app = nextConnect();
 app.use(upload.single('book'));
 
 app.post((req, res) => {
-	console.log(req.body);
+	console.log(req.body.name);
 	console.log(req.file);
 	res.json({ imageUploadId: req.file.filename.split('.')[0] });
 });
