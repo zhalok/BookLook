@@ -48,6 +48,7 @@ export default function Uplod() {
 				marginLeft: 'auto',
 				marginRight: 'auto',
 				marginTop: '50px',
+				marginBottom: '50px',
 			}}
 		>
 			<Typography variant='h3' component='h2'>

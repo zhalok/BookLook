@@ -10,9 +10,10 @@ const upload = multer({
 	storage: multer.diskStorage({
 		destination: './public/uploads',
 		filename: (req, file, cb) => {
+			console.log(req.query);
 			const arr = file.originalname.split('.');
 			const ext = arr[arr.length - 1];
-			const fileName = Date.now() + '.' + ext;
+			const fileName = req.query.name + '.' + ext;
 
 			cb(null, fileName);
 		},
@@ -24,9 +25,7 @@ const app = nextConnect();
 app.use(upload.single('book'));
 
 app.post((req, res) => {
-	console.log(req.body.name);
-	console.log(req.file);
-	res.json({ imageUploadId: req.file.filename.split('.')[0] });
+	res.status(200).json({ message: 'ok' });
 });
 
 export default app;

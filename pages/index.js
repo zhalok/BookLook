@@ -74,6 +74,7 @@ export async function getServerSideProps({ req, res }) {
 		});
 	});
 	const result = await promise;
+	console.log(result);
 	const _result = [];
 	for (let i = 0; i < result.length; i++) {
 		let _res = JSON.stringify(result[i]);
