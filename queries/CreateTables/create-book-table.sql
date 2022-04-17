@@ -13,3 +13,5 @@ upload_time date not null
 
 
 )
+
+-- drop table books;
