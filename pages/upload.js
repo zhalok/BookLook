@@ -50,11 +50,17 @@ export default function UploadBook() {
 						availibility,
 						reviews: 0,
 						uploader,
-						uploadTime,
+						uploadTime: DateGenerator(),
 					}),
 				}
 			);
 			const data = await response.json();
+
+			setName('');
+			setAuthor('');
+			setEdition('');
+			setPublication('');
+			setAvailibility('');
 			alert(data[0].id);
 		} catch (e) {
 			alert('error');
@@ -67,9 +73,10 @@ export default function UploadBook() {
 				marginLeft: 'auto',
 				marginRight: 'auto',
 				width: '40%',
-				marginTop: '100px',
+				marginTop: '50px',
 				backgroundColor: 'white',
 				padding: '20px',
+				marginBottom: '50px',
 			}}
 		>
 			<h2 style={{ textAlign: 'center' }}>Contribute</h2>
@@ -88,6 +95,7 @@ export default function UploadBook() {
 					label='Name'
 					variant='outlined'
 					fullWidth
+					value={name}
 					onChange={(e) => {
 						setName(e.target.value);
 					}}
@@ -106,6 +114,7 @@ export default function UploadBook() {
 					id='outlined-basic'
 					label='Author'
 					variant='outlined'
+					value={author}
 					fullWidth
 					onChange={(e) => {
 						setAuthor(e.target.value);
@@ -219,7 +228,6 @@ export default function UploadBook() {
 					variant='contained'
 					fullWidth
 					onClick={() => {
-						setUploadTime(DateGenerator());
 						uploadData();
 					}}
 				>
