@@ -9,7 +9,7 @@ const Input = styled('input')({
 	display: 'none',
 });
 
-export default function UploadButton() {
+export default function UploadButton(setFile) {
 	return (
 		<Stack direction='row' alignItems='center' spacing={2}>
 			<label htmlFor='contained-button-file'>
@@ -18,8 +18,11 @@ export default function UploadButton() {
 					id='contained-button-file'
 					multiple
 					type='file'
+					onChange={(e) => {
+						setFile(e.target.files[0]);
+					}}
 				/>
-				<Button variant='contained' component='span' fullWidth>
+				<Button variant='contained' component='span' fullWidth color='success'>
 					Select File
 				</Button>
 			</label>

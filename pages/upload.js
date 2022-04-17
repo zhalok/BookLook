@@ -4,8 +4,11 @@ import {
 	MenuItem,
 	InputLabel,
 	FormControl,
+	Button,
+	Input,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
+import UploadButton from '../components/Buttons/UploadButton';
 
 export default function UploadBook() {
 	const [name, setName] = useState('');
@@ -15,6 +18,7 @@ export default function UploadBook() {
 	const [availibility, setAvailibility] = useState('');
 	const [uploader, setUploader] = useState('');
 	const [uploadTime, setUploadTime] = useState('');
+	const [file, setFile] = useState('');
 
 	const publications = ['Scaums Outline', 'Talukdar Prokashoni'];
 	let editions = ['1st', '2nd', '3rd'];
@@ -121,6 +125,59 @@ export default function UploadBook() {
 						))}
 					</Select>
 				</FormControl>
+			</div>
+			<div
+				style={{
+					width: '60%',
+					marginLeft: 'auto',
+					marginRight: 'auto',
+					backgroundColor: '#eeeeff',
+					marginTop: '20px',
+				}}
+			>
+				<FormControl fullWidth>
+					<InputLabel id='demo-simple-select-label'>Available?</InputLabel>
+					<Select
+						labelId='demo-simple-select-label'
+						id='demo-simple-select'
+						value={availibility}
+						label='Availibility'
+						onChange={(e) => {
+							setAvailibility(e.target.value);
+						}}
+					>
+						<MenuItem value={true}>Yes</MenuItem>
+						<MenuItem value={false}>No</MenuItem>
+					</Select>
+				</FormControl>
+			</div>
+			<div
+				style={{
+					width: '60%',
+					marginLeft: 'auto',
+					marginRight: 'auto',
+					marginTop: '20px',
+				}}
+			>
+				<UploadButton setFile={setFile} />
+			</div>
+			<div
+				style={{
+					width: '60%',
+					marginLeft: 'auto',
+					marginRight: 'auto',
+					marginTop: '20px',
+				}}
+			>
+				<Button
+					variant='contained'
+					fullWidth
+					onClick={() => {
+						console.log(name, author, publication, edition, availibility, file);
+					}}
+				>
+					Submit
+				</Button>
 			</div>
 		</div>
 	);
