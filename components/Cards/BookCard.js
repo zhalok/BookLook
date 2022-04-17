@@ -8,15 +8,17 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import { useRouter } from 'next/router';
 
-import Link from 'next/link';
 export default function BookCard({ info }) {
 	const Demo = styled('div')(({ theme }) => ({
 		backgroundColor: theme.palette.background.paper,
 	}));
 
+	const router = useRouter();
+
 	return (
-		<Card sx={{ maxWidth: 345 }} elevation={6}>
+		<Card sx={{ maxWidth: 400 }} elevation={6}>
 			<CardMedia
 				component='img'
 				height='140'
@@ -25,32 +27,27 @@ export default function BookCard({ info }) {
 			/>
 			<CardContent>
 				<Typography gutterBottom variant='h5' component='div'>
-					{info.NAME}
+					{info.name}
 				</Typography>
 				<Demo>
 					<List>
-						<ListItem>Author: {info.AUTHOR}</ListItem>
-						<ListItem>Publisher: {info.PUBLISHER}</ListItem>
-						<ListItem>Edition: {info.EDITION}</ListItem>
+						<ListItem>Author: {info.author}</ListItem>
+						<ListItem>Publisher: {info.publication}</ListItem>
+						<ListItem>Edition: {info.edition}</ListItem>
+						<ListItem>Reviews:{info.reviews}</ListItem>
+						<ListItem>
+							{info.availibility == true ? 'Available' : 'Not available'}
+						</ListItem>
 					</List>
 				</Demo>
 			</CardContent>
 			<CardActions>
-				<Link href='/read/123'>
-					<Button variant='contained' fullWidth>
-						{' '}
-						Read{' '}
-					</Button>
-				</Link>
-
 				<Button
-					variant='contained'
-					fullWidth
-					color='success'
-					onClick={() => {}}
+					onClick={() => {
+						router.push(`/books/details?id=${info.id}`);
+					}}
 				>
-					{' '}
-					Download{' '}
+					See Details
 				</Button>
 			</CardActions>
 		</Card>

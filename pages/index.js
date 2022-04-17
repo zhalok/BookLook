@@ -40,7 +40,7 @@ export default function Home({ Message, Books }) {
 							Filter
 						</Item>
 					</Grid>
-					<Grid item xs={8}>
+					<Grid item xs={10}>
 						<Grid
 							container
 							spacing={2}
