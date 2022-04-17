@@ -9,7 +9,7 @@ const Input = styled('input')({
 	display: 'none',
 });
 
-export default function UploadButton(setFile) {
+export default function UploadButton({ setFile }) {
 	return (
 		<Stack direction='row' alignItems='center' spacing={2}>
 			<label htmlFor='contained-button-file'>
