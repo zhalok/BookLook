@@ -11,8 +11,12 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import Link from 'next/link';
 
-const pages = ['Slides', 'Books', 'Notes', 'Contribute'];
+const pages = [
+	{ name: 'Books', link: '/books' },
+	{ name: 'Contribute', link: '/upload' },
+];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Appbar = () => {
@@ -44,10 +48,12 @@ const Appbar = () => {
 						component='div'
 						sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
 					>
-						BookLook
+						<Link href='/'>
+							<a>BookLook</a>
+						</Link>
 					</Typography>
 
-					<Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+					{/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
 						<IconButton
 							size='large'
 							aria-label='account of current user'
@@ -57,8 +63,8 @@ const Appbar = () => {
 							color='inherit'
 						>
 							<MenuIcon />
-						</IconButton>
-						<Menu
+						</IconButton> */}
+					{/* <Menu
 							id='menu-appbar'
 							anchorEl={anchorElNav}
 							anchorOrigin={{
@@ -76,13 +82,15 @@ const Appbar = () => {
 								display: { xs: 'block', md: 'none' },
 							}}
 						>
-							{pages.map((page) => (
-								<MenuItem key={page} onClick={handleCloseNavMenu}>
-									<Typography textAlign='center'>{page}</Typography>
-								</MenuItem>
-							))}
-						</Menu>
-					</Box>
+							<Link href='/upload'>
+								<a>
+									<MenuItem key={1} onClick={handleCloseNavMenu}>
+										<Typography textAlign='center'>Contribute</Typography>
+									</MenuItem>
+								</a>
+							</Link>
+						</Menu> */}
+					{/* </Box> */}
 					<Typography
 						variant='h6'
 						noWrap
@@ -92,14 +100,18 @@ const Appbar = () => {
 						LOGO
 					</Typography>
 					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-						{pages.map((page) => (
-							<Button
-								key={page}
-								onClick={handleCloseNavMenu}
-								sx={{ my: 2, color: 'white', display: 'block' }}
-							>
-								{page}
-							</Button>
+						{pages.map((page, index) => (
+							<Link href={page.link}>
+								<a>
+									<Button
+										key={index}
+										onClick={handleCloseNavMenu}
+										sx={{ my: 2, color: 'white', display: 'block' }}
+									>
+										{page.name}
+									</Button>
+								</a>
+							</Link>
 						))}
 					</Box>
 

@@ -13,7 +13,7 @@ const upload = multer({
 			console.log(req.query);
 			const arr = file.originalname.split('.');
 			const ext = arr[arr.length - 1];
-			const fileName = req.query.name + '.' + ext;
+			const fileName = req.query.filename + '.' + ext;
 
 			cb(null, fileName);
 		},
