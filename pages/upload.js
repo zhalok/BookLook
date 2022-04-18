@@ -5,7 +5,6 @@ import {
 	InputLabel,
 	FormControl,
 	Button,
-	Input,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import UploadButton from '../components/Buttons/UploadButton';
@@ -14,6 +13,7 @@ import Appbar from '../components/Decoration/Appbar';
 import styles from '../styles/Home.module.css';
 import Loading from '../components/Modals/Loading';
 import UploadSuccessMessage from '../components/Modals/UploadSuccessMessage';
+import Image from 'next/image';
 
 export default function UploadBook() {
 	const [name, setName] = useState('');
@@ -25,6 +25,7 @@ export default function UploadBook() {
 	const [file, setFile] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [successMessage, setSuccessMessage] = useState(false);
+	const [fileName, setFileName] = useState('');
 
 	const publications = ['Scaums Outline', 'Talukdar Prokashoni'];
 	let editions = ['1st', '2nd', '3rd'];
@@ -232,7 +233,9 @@ export default function UploadBook() {
 						marginTop: '20px',
 					}}
 				>
-					<UploadButton setFile={setFile} />
+					<div>{fileName}</div>
+
+					<UploadButton setFile={setFile} setFileName={setFileName} />
 				</div>
 				<div
 					style={{

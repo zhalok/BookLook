@@ -1,15 +1,13 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
 
 const Input = styled('input')({
 	display: 'none',
 });
 
-export default function UploadButton({ setFile }) {
+export default function UploadButton({ setFile, setFileName }) {
 	return (
 		<Stack direction='row' alignItems='center' spacing={2}>
 			<label htmlFor='contained-button-file'>
@@ -20,8 +18,12 @@ export default function UploadButton({ setFile }) {
 					type='file'
 					onChange={(e) => {
 						setFile(e.target.files[0]);
+						if (e.target.files) {
+							setFileName(e.target.files[0].name);
+						}
 					}}
 				/>
+
 				<Button variant='contained' component='span' fullWidth color='success'>
 					Select File
 				</Button>

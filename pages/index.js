@@ -35,12 +35,16 @@ export default function Home({ Message, Books }) {
 
 			<div style={{ marginTop: '30px' }}>
 				<Grid container spacing={2}>
-					<Grid item xs={3}>
+					<Grid item xs={3} style={{ marginLeft: 'auto', marginRight: 'auto' }}>
 						<Item style={{ color: 'black', border: '1px solid black' }}>
 							Filter
 						</Item>
 					</Grid>
-					<Grid item xs={10}>
+					<Grid
+						item
+						xs={10}
+						style={{ marginLeft: 'auto', marginRight: 'auto' }}
+					>
 						<Grid
 							container
 							spacing={2}
