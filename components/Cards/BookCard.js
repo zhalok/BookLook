@@ -31,25 +31,37 @@ export default function BookCard({ info }) {
 				</Typography>
 				<Demo>
 					<List>
-						<ListItem>Author: {info.author}</ListItem>
-						<ListItem>Publisher: {info.publication}</ListItem>
-						<ListItem>Edition: {info.edition}</ListItem>
-						<ListItem>Reviews:{info.reviews}</ListItem>
-						<ListItem>
+						<ListItem key={1}>Author: {info.author}</ListItem>
+						<ListItem key={2}>Publisher: {info.publication}</ListItem>
+						<ListItem key={3}>Edition: {info.edition}</ListItem>
+						<ListItem key={4}>Reviews:{info.reviews}</ListItem>
+						<ListItem key={5}>
 							{info.availibility == true ? 'Available' : 'Not available'}
+						</ListItem>
+						<ListItem key={6}>
+							Upload Time: {info.upload_time.split('T')[0]}
 						</ListItem>
 					</List>
 				</Demo>
 			</CardContent>
-			<CardActions>
-				<Button
-					onClick={() => {
-						router.push(`/books/details?id=${info.id}`);
-					}}
-				>
-					See Details
-				</Button>
-			</CardActions>
+			<div
+				style={{
+					width: '80%',
+					marginLeft: 'auto',
+					marginRight: 'auto',
+				}}
+			>
+				<div>
+					<Button variant='contained' fullWidth>
+						Read
+					</Button>
+				</div>
+				<div style={{ marginTop: '10px', marginBottom: '20px' }}>
+					<Button variant='contained' fullWidth>
+						Downlaod
+					</Button>
+				</div>
+			</div>
 		</Card>
 	);
 }

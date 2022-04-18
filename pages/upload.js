@@ -27,7 +27,7 @@ export default function UploadBook() {
 	const [successMessage, setSuccessMessage] = useState(false);
 	const [fileName, setFileName] = useState('');
 
-	const publications = ['Scaums Outline', 'Talukdar Prokashoni'];
+	const publications = ['Scaums Outline', 'Talukdar Prokashoni', 'Pearson'];
 	let editions = ['1st', '2nd', '3rd'];
 
 	useEffect(() => {
@@ -77,6 +77,7 @@ export default function UploadBook() {
 			setAvailibility('');
 			setLoading(false);
 			setSuccessMessage(true);
+			setFile(null);
 		} catch (e) {
 			alert('error');
 		}

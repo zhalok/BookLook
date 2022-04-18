@@ -12,7 +12,7 @@ export default function UploadButton({ setFile, setFileName }) {
 		<Stack direction='row' alignItems='center' spacing={2}>
 			<label htmlFor='contained-button-file'>
 				<Input
-					accept='image/*'
+					accept='*'
 					id='contained-button-file'
 					multiple
 					type='file'
