@@ -12,6 +12,8 @@ import UploadButton from '../components/Buttons/UploadButton';
 import DateGenerator from '../utils/DateFormatter';
 import Appbar from '../components/Decoration/Appbar';
 import styles from '../styles/Home.module.css';
+import Loading from '../components/Modals/Loading';
+import UploadSuccessMessage from '../components/Modals/UploadSuccessMessage';
 
 export default function UploadBook() {
 	const [name, setName] = useState('');
@@ -21,6 +23,8 @@ export default function UploadBook() {
 	const [availibility, setAvailibility] = useState('');
 	const [uploader, setUploader] = useState('');
 	const [file, setFile] = useState('');
+	const [loading, setLoading] = useState(false);
+	const [successMessage, setSuccessMessage] = useState(false);
 
 	const publications = ['Scaums Outline', 'Talukdar Prokashoni'];
 	let editions = ['1st', '2nd', '3rd'];
@@ -43,6 +47,7 @@ export default function UploadBook() {
 
 	const uploadData = async () => {
 		try {
+			setLoading(true);
 			const response = await fetch(
 				'http://localhost:3000/api/books/uploadInfo',
 				{
@@ -69,7 +74,8 @@ export default function UploadBook() {
 			setEdition('');
 			setPublication('');
 			setAvailibility('');
-			alert('Book Uploaded');
+			setLoading(false);
+			setSuccessMessage(true);
 		} catch (e) {
 			alert('error');
 		}
@@ -78,6 +84,8 @@ export default function UploadBook() {
 	return (
 		<div className={styles.container}>
 			<Appbar />
+			<Loading show={loading} />
+			<UploadSuccessMessage show={successMessage} setShow={setSuccessMessage} />
 			<div
 				style={{
 					marginLeft: 'auto',
