@@ -1,30 +1,12 @@
-import { useEffect, useRef } from 'react';
-import dynamic from 'next/dynamic';
-function PdfViewer() {
-	const viewer = useRef(null);
+import React, { useState } from 'react';
 
-	useEffect(() => {
-		import('@pdftron/webviewer').then(() => {
-			WebViewer(
-				{
-					path: '/webviewer/lib',
-					initialDoc: '/uploads/1647951938033.pdf',
-				},
-				viewer.current
-			).then((instance) => {
-				const { docViewer } = instance;
-				console.log(docViewer);
-			});
-		});
-	}, []);
-
+export default function BookViewer({}) {
 	return (
-		<div className='MyComponent'>
-			<div className='webviewer' ref={viewer} style={{ height: '100vh' }}></div>
-		</div>
+		<object
+			data='/uploads/1.pdf'
+			type='application/pdf'
+			width='100%'
+			height='800px'
+		></object>
 	);
 }
-
-// export default dynamic(PdfViewer, { ssr: 'false' });
-
-export default PdfViewer;

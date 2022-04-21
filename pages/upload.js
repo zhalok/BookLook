@@ -12,9 +12,9 @@ import DateGenerator from '../utils/DateFormatter';
 import Appbar from '../components/Decoration/Appbar';
 import styles from '../styles/Home.module.css';
 import Loading from '../components/Modals/Loading';
+import storage from '../utils/firebaseConnection';
+import { ref, uploadBytes } from '@firebase/storage';
 import UploadSuccessMessage from '../components/Modals/UploadSuccessMessage';
-import Image from 'next/image';
-
 export default function UploadBook() {
 	const [name, setName] = useState('');
 	const [author, setAuthor] = useState('');
@@ -38,12 +38,18 @@ export default function UploadBook() {
 	}, []);
 
 	const uploadFile = async (id) => {
-		const formData = new FormData();
-		formData.append('book', file);
-		fetch(`http://localhost:3000/api/books/uploadFile?filename=${id}`, {
-			method: 'POST',
-			body: formData,
+		let promise = new Promise((resolve, reject) => {
+			const fileRef = ref(storage, `${id}`);
+			uploadBytes(fileRef, file).then(
+				(snapshot) => {
+					resolve(true);
+				},
+				(err) => {
+					reject(err);
+				}
+			);
 		});
+		return promise;
 	};
 
 	const uploadData = async () => {
@@ -69,7 +75,9 @@ export default function UploadBook() {
 				}
 			);
 			const data = await response.json();
-			const response1 = await uploadFile(data[0].id);
+			console.log(data[0].id);
+			const prom = await uploadFile(data[0].id);
+			console.log(prom);
 			setName('');
 			setAuthor('');
 			setEdition('');
@@ -79,7 +87,7 @@ export default function UploadBook() {
 			setSuccessMessage(true);
 			setFile(null);
 		} catch (e) {
-			alert('error');
+			alert(e);
 		}
 	};
 

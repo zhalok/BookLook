@@ -10,7 +10,8 @@ edition varchar(10) ,
 availibility boolean not null,
 reviews int not null,
 uploader varchar(256) not null,
-upload_time date not null
+upload_time date not null,
+
 
 
 )
