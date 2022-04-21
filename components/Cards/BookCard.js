@@ -52,7 +52,13 @@ export default function BookCard({ info }) {
 				}}
 			>
 				<div>
-					<Button variant='contained' fullWidth>
+					<Button
+						variant='contained'
+						fullWidth
+						onClick={() => {
+							router.push(`/read/${info.id}`);
+						}}
+					>
 						Read
 					</Button>
 				</div>
