@@ -11,8 +11,9 @@ import Checkbox from '@mui/material/Checkbox';
 import NameField from '../components/TextFields/NameField';
 import AuthorField from '../components/TextFields/AuthorField';
 import UploadSubmitButton from '../components/Buttons/UploadSubmitButton';
-import PublicationField from '../components/TextFields/PublicationField';
-import EditionField from '../components/TextFields/EditionField';
+import PublicationField from '../components/SelectFields/PublicationField';
+import EditionField from '../components/SelectFields/EditionField';
+import AvailibilityField from '../components/SelectFields/AvailibilityField';
 
 export default function UploadBook(props) {
 	const [name, setName] = useState('');
@@ -25,14 +26,6 @@ export default function UploadBook(props) {
 	const [loading, setLoading] = useState(false);
 	const [successMessage, setSuccessMessage] = useState(false);
 	const [fileName, setFileName] = useState('');
-	const [selectedDepartments, setSelectedDepartments] = useState([]);
-	const [selectedCatagories, setSelectedCatagories] = useState([]);
-
-	const publications = ['Scaums Outline', 'Talukdar Prokashoni', 'Pearson'];
-	const editions = ['1st', '2nd', '3rd', '5th', '6th', '7th'];
-	// const departments = props.departments;
-	const catagories = props.catagories;
-	// console.log(catagories);
 
 	useEffect(() => {
 		document.body.style.backgroundColor = '#eeeeff';
@@ -90,6 +83,7 @@ export default function UploadBook(props) {
 			setLoading(false);
 			setSuccessMessage(true);
 			setFile('');
+			setFileName('');
 		} catch (e) {
 			alert(e);
 		}
@@ -119,7 +113,13 @@ export default function UploadBook(props) {
 					publication={publication}
 					setPublication={setPublication}
 				/>
+
 				<EditionField edition={edition} setEdition={setEdition} />
+				<AvailibilityField
+					availibility={availibility}
+					setAvailibility={setAvailibility}
+				/>
+
 				<UploadButton
 					setFile={setFile}
 					setFileName={setFileName}
@@ -137,11 +137,7 @@ export async function getServerSideProps(context) {
 		'http://localhost:3000/api/catagories/get-all'
 	);
 	const catagories = await catagories_response.json();
-	// console.log(catagories);
-	// const departments_response = await fetch(
-	// 	'http://localhost:3000/api/departmetns/get-all'
-	// );
-	// const departments = await departments_response.json();
+
 	return {
 		props: { catagories },
 	};
