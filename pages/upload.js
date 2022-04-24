@@ -1,11 +1,3 @@
-import {
-	TextField,
-	Select,
-	MenuItem,
-	InputLabel,
-	FormControl,
-	Button,
-} from '@mui/material';
 import { useEffect, useState } from 'react';
 import UploadButton from '../components/Buttons/UploadButton';
 import DateGenerator from '../utils/DateFormatter';
@@ -15,7 +7,14 @@ import Loading from '../components/Modals/Loading';
 import storage from '../utils/firebaseConnection';
 import { ref, uploadBytes } from '@firebase/storage';
 import UploadSuccessMessage from '../components/Modals/UploadSuccessMessage';
-export default function UploadBook() {
+import Checkbox from '@mui/material/Checkbox';
+import NameField from '../components/TextFields/NameField';
+import AuthorField from '../components/TextFields/AuthorField';
+import UploadSubmitButton from '../components/Buttons/UploadSubmitButton';
+import PublicationField from '../components/TextFields/PublicationField';
+import EditionField from '../components/TextFields/EditionField';
+
+export default function UploadBook(props) {
 	const [name, setName] = useState('');
 	const [author, setAuthor] = useState('');
 	const [publication, setPublication] = useState('');
@@ -26,11 +25,14 @@ export default function UploadBook() {
 	const [loading, setLoading] = useState(false);
 	const [successMessage, setSuccessMessage] = useState(false);
 	const [fileName, setFileName] = useState('');
+	const [selectedDepartments, setSelectedDepartments] = useState([]);
+	const [selectedCatagories, setSelectedCatagories] = useState([]);
 
 	const publications = ['Scaums Outline', 'Talukdar Prokashoni', 'Pearson'];
 	const editions = ['1st', '2nd', '3rd', '5th', '6th', '7th'];
-	const departments = [];
-	const catagories = [];
+	// const departments = props.departments;
+	const catagories = props.catagories;
+	// console.log(catagories);
 
 	useEffect(() => {
 		document.body.style.backgroundColor = '#eeeeff';
@@ -87,7 +89,7 @@ export default function UploadBook() {
 			setAvailibility('');
 			setLoading(false);
 			setSuccessMessage(true);
-			setFile(null);
+			setFile('');
 		} catch (e) {
 			alert(e);
 		}
@@ -111,162 +113,36 @@ export default function UploadBook() {
 			>
 				<h2 style={{ textAlign: 'center' }}>Contribute</h2>
 
-				<div
-					style={{
-						width: '60%',
-						marginLeft: 'auto',
-						marginRight: 'auto',
-						backgroundColor: '#eeeeff',
-						marginTop: '40px',
-					}}
-				>
-					<TextField
-						id='outlined-basic'
-						label='Name'
-						variant='outlined'
-						fullWidth
-						value={name}
-						onChange={(e) => {
-							setName(e.target.value);
-						}}
-					/>
-				</div>
-				<div
-					style={{
-						width: '60%',
-						marginLeft: 'auto',
-						marginRight: 'auto',
-						backgroundColor: '#eeeeff',
-						marginTop: '20px',
-					}}
-				>
-					<TextField
-						id='outlined-basic'
-						label='Author'
-						variant='outlined'
-						value={author}
-						fullWidth
-						onChange={(e) => {
-							setAuthor(e.target.value);
-						}}
-					/>
-				</div>
-				<div
-					style={{
-						width: '60%',
-						marginLeft: 'auto',
-						marginRight: 'auto',
-						backgroundColor: '#eeeeff',
-						marginTop: '20px',
-					}}
-				>
-					<FormControl fullWidth>
-						<InputLabel id='demo-simple-select-label'>Publication</InputLabel>
-						<Select
-							labelId='demo-simple-select-label'
-							id='demo-simple-select'
-							value={publication}
-							label='Publicaion'
-							onChange={(e) => {
-								setPublication(e.target.value);
-							}}
-						>
-							{publications.map((value, index) => (
-								<MenuItem key={index} value={value}>
-									{value}
-								</MenuItem>
-							))}
-						</Select>
-					</FormControl>
-				</div>
-				<div
-					style={{
-						width: '60%',
-						marginLeft: 'auto',
-						marginRight: 'auto',
-						backgroundColor: '#eeeeff',
-						marginTop: '20px',
-					}}
-				>
-					<FormControl fullWidth>
-						<InputLabel id='demo-simple-select-label'>Edition</InputLabel>
-						<Select
-							labelId='demo-simple-select-label'
-							id='demo-simple-select'
-							value={edition}
-							label='Edition'
-							onChange={(e) => {
-								setEdition(e.target.value);
-							}}
-						>
-							{editions.map((value, index) => (
-								<MenuItem key={index} value={value}>
-									{value}
-								</MenuItem>
-							))}
-						</Select>
-					</FormControl>
-				</div>
-				<div
-					style={{
-						width: '60%',
-						marginLeft: 'auto',
-						marginRight: 'auto',
-						backgroundColor: '#eeeeff',
-						marginTop: '20px',
-					}}
-				>
-					<FormControl fullWidth>
-						<InputLabel id='demo-simple-select-label'>Available?</InputLabel>
-						<Select
-							labelId='demo-simple-select-label'
-							id='demo-simple-select'
-							value={availibility}
-							label='Availibility'
-							onChange={(e) => {
-								setAvailibility(e.target.value);
-							}}
-						>
-							<MenuItem key={0} value={true}>
-								Yes
-							</MenuItem>
-							<MenuItem key={1} value={false}>
-								No
-							</MenuItem>
-						</Select>
-					</FormControl>
-				</div>
-				<div
-					style={{
-						width: '60%',
-						marginLeft: 'auto',
-						marginRight: 'auto',
-						marginTop: '20px',
-					}}
-				>
-					<div>{fileName}</div>
+				<NameField name={name} setName={setName} />
+				<AuthorField author={author} setAuthor={setAuthor} />
+				<PublicationField
+					publication={publication}
+					setPublication={setPublication}
+				/>
+				<EditionField edition={edition} setEdition={setEdition} />
+				<UploadButton
+					setFile={setFile}
+					setFileName={setFileName}
+					fileName={fileName}
+				/>
 
-					<UploadButton setFile={setFile} setFileName={setFileName} />
-				</div>
-				<div
-					style={{
-						width: '60%',
-						marginLeft: 'auto',
-						marginRight: 'auto',
-						marginTop: '20px',
-					}}
-				>
-					<Button
-						variant='contained'
-						fullWidth
-						onClick={() => {
-							uploadData();
-						}}
-					>
-						Submit
-					</Button>
-				</div>
+				<UploadSubmitButton uploadData={uploadData} />
 			</div>
 		</div>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const catagories_response = await fetch(
+		'http://localhost:3000/api/catagories/get-all'
+	);
+	const catagories = await catagories_response.json();
+	// console.log(catagories);
+	// const departments_response = await fetch(
+	// 	'http://localhost:3000/api/departmetns/get-all'
+	// );
+	// const departments = await departments_response.json();
+	return {
+		props: { catagories },
+	};
 }
