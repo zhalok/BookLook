@@ -28,7 +28,9 @@ export default function UploadBook() {
 	const [fileName, setFileName] = useState('');
 
 	const publications = ['Scaums Outline', 'Talukdar Prokashoni', 'Pearson'];
-	let editions = ['1st', '2nd', '3rd'];
+	const editions = ['1st', '2nd', '3rd', '5th', '6th', '7th'];
+	const departments = [];
+	const catagories = [];
 
 	useEffect(() => {
 		document.body.style.backgroundColor = '#eeeeff';
