@@ -7,13 +7,14 @@ import Loading from '../components/Modals/Loading';
 import storage from '../utils/firebaseConnection';
 import { ref, uploadBytes } from '@firebase/storage';
 import UploadSuccessMessage from '../components/Modals/UploadSuccessMessage';
-import Checkbox from '@mui/material/Checkbox';
+import Catagories from '../components/CheckLists/Catagories';
 import NameField from '../components/TextFields/NameField';
 import AuthorField from '../components/TextFields/AuthorField';
 import UploadSubmitButton from '../components/Buttons/UploadSubmitButton';
 import PublicationField from '../components/SelectFields/PublicationField';
 import EditionField from '../components/SelectFields/EditionField';
 import AvailibilityField from '../components/SelectFields/AvailibilityField';
+import { Button } from '@mui/material';
 
 export default function UploadBook(props) {
 	const [name, setName] = useState('');
@@ -21,15 +22,16 @@ export default function UploadBook(props) {
 	const [publication, setPublication] = useState('');
 	const [edition, setEdition] = useState('');
 	const [availibility, setAvailibility] = useState('');
+	const [selectedCatagories, setSelectedCatagories] = useState([]);
 	const [uploader, setUploader] = useState('');
 	const [file, setFile] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [successMessage, setSuccessMessage] = useState(false);
 	const [fileName, setFileName] = useState('');
+	const [showCatagories, setShowCatagories] = useState(false);
 
 	useEffect(() => {
 		document.body.style.backgroundColor = '#eeeeff';
-		// const uploader = localStorage.getItem('user');
 
 		setUploader('zhalok');
 	}, []);
@@ -119,6 +121,29 @@ export default function UploadBook(props) {
 					availibility={availibility}
 					setAvailibility={setAvailibility}
 				/>
+				<Catagories
+					catagories={selectedCatagories}
+					setCatagories={setSelectedCatagories}
+					show={showCatagories}
+					setShow={setShowCatagories}
+				/>
+				<div
+					style={{
+						width: '60%',
+						marginLeft: 'auto',
+						marginRight: 'auto',
+						backgroundColor: '#eeeeff',
+						marginTop: '20px',
+					}}
+				>
+					<Button
+						onClick={() => {
+							setShowCatagories(true);
+						}}
+					>
+						Select Catagories
+					</Button>
+				</div>
 
 				<UploadButton
 					setFile={setFile}
