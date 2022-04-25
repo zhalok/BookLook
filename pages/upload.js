@@ -22,17 +22,25 @@ export default function UploadBook(props) {
 	const [publication, setPublication] = useState('');
 	const [edition, setEdition] = useState('');
 	const [availibility, setAvailibility] = useState('');
-	const [selectedCatagories, setSelectedCatagories] = useState([]);
+	// const [selectedCatagories, setSelectedCatagories] = useState([
+	// 	{ name: 'Engineering', selected: false },
+	// 	{ name: 'Technology', selected: false },
+	// ]);
 	const [uploader, setUploader] = useState('');
 	const [file, setFile] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [successMessage, setSuccessMessage] = useState(false);
 	const [fileName, setFileName] = useState('');
 	const [showCatagories, setShowCatagories] = useState(false);
+	let catagories = ['Engineering', 'Technology'];
+	for (let i = 0; i < catagories.length; i++) {
+		const state = useState({ name: catagories[i], selected: false });
+		catagories[i] = state;
+	}
+	console.log(catagories);
 
 	useEffect(() => {
 		document.body.style.backgroundColor = '#eeeeff';
-
 		setUploader('zhalok');
 	}, []);
 
@@ -122,8 +130,7 @@ export default function UploadBook(props) {
 					setAvailibility={setAvailibility}
 				/>
 				<Catagories
-					catagories={selectedCatagories}
-					setCatagories={setSelectedCatagories}
+					catagoryStates={catagories}
 					show={showCatagories}
 					setShow={setShowCatagories}
 				/>

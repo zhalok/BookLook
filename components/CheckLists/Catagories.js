@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
@@ -20,32 +20,7 @@ const style = {
 	p: 4,
 };
 
-export default function Catagories({
-	catagories,
-	setCatagories,
-	show,
-	setShow,
-}) {
-	let catagorylist = [
-		{ name: 'Engineering', selected: false },
-		{ name: 'Technology', selected: false },
-		{ name: 'Social Science', selected: false },
-		{ name: 'Philosophy', selected: false },
-		{ name: 'Electronics', selected: false },
-		{ name: 'Programming', selected: false },
-	];
-
-	useEffect(() => {
-		for (let i = 0; i < catagorylist.length; i++) {
-			const catagory_name = catagorylist[i].name;
-			if (catagories.indexOf(catagory_name) != -1) {
-				catagorylist[i].selected = true;
-			} else {
-				catagorylist[i].selected = false;
-			}
-		}
-	}, []);
-
+export default function Catagories({ catagoryStates, show, setShow }) {
 	return (
 		<div
 			style={{
@@ -71,26 +46,26 @@ export default function Catagories({
 							overflowY: 'auto',
 						}}
 					>
-						{catagorylist.map((e, index) => (
-							<MenuItem key={index} value={e}>
+						{catagoryStates.map((e) => (
+							<MenuItem value={e[0].name}>
 								<Checkbox
-									value={e.selected}
+									checked={e[0].selected}
 									onChange={(event) => {
-										e.selected = event.target.checked;
+										e[1]({ name: e[0].name, selected: event.target.checked });
 									}}
 								/>
-								{e.name}
+								{e[0].name}
 							</MenuItem>
 						))}
 					</div>
 
-					<Button
+					{/* <Button
 						style={{ marginTop: '20px' }}
 						onClick={() => {
 							let selected = [];
-							for (let i = 0; i < catagorylist.length; i++) {
-								if (catagorylist[i].selected == true) {
-									selected.push(catagorylist[i].name);
+							for (let i = 0; i < catagoryList.length; i++) {
+								if (catagoryList[i].selected == true) {
+									selected.push(catagoryList[i].name);
 								}
 							}
 							setCatagories(selected);
@@ -98,9 +73,10 @@ export default function Catagories({
 						}}
 					>
 						Select
-					</Button>
+					</Button> */}
 				</Box>
 			</Modal>
 		</div>
 	);
+	// }
 }
