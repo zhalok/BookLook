@@ -29,7 +29,7 @@ export default function Catagories({
   return (
     <div
       style={{
-        width: "100%",
+        width: "60%",
         marginLeft: "auto",
         marginRight: "auto",
         backgroundColor: "#eeeeff",

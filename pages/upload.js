@@ -12,9 +12,10 @@ import NameField from "../components/TextFields/NameField";
 import AuthorField from "../components/TextFields/AuthorField";
 import UploadSubmitButton from "../components/Buttons/UploadSubmitButton";
 import PublicationField from "../components/SelectFields/PublicationField";
-import EditionField from "../components/SelectFields/EditionField";
+import EditionField from "../components/TextFields/EditionField";
 import AvailibilityField from "../components/SelectFields/AvailibilityField";
 import { Button } from "@mui/material";
+import CourseField from "../components/TextFields/CourseField";
 
 export default function UploadBook(props) {
   const [name, setName] = useState("");
@@ -22,15 +23,14 @@ export default function UploadBook(props) {
   const [publication, setPublication] = useState("");
   const [edition, setEdition] = useState("");
   const [availibility, setAvailibility] = useState("");
-  const [catagories, setCatagories] = useState([
-    { name: "Engineering", selected: false },
-  ]);
+  const [catagories, setCatagories] = useState([]);
   const [uploader, setUploader] = useState("");
   const [file, setFile] = useState("");
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState(false);
   const [fileName, setFileName] = useState("");
   const [showCatagories, setShowCatagories] = useState(false);
+  const [course, setCourse] = useState("");
 
   useEffect(() => {
     document.body.style.backgroundColor = "#eeeeff";
@@ -69,6 +69,7 @@ export default function UploadBook(props) {
             publication,
             edition,
             availibility,
+            course,
             reviews: 0,
             uploader,
             uploadTime: DateGenerator(),
@@ -76,9 +77,9 @@ export default function UploadBook(props) {
         }
       );
       const data = await response.json();
-      console.log(data[0].id);
-      const prom = await uploadFile(data[0].id);
-      console.log(prom);
+      // console.log(data[0].id);
+      // const prom = await uploadFile(data[0].id);
+      // console.log(prom);
       setName("");
       setAuthor("");
       setEdition("");
@@ -129,6 +130,7 @@ export default function UploadBook(props) {
           show={showCatagories}
           setShow={setShowCatagories}
         />
+        <CourseField course={course} setCourse={setCourse} />
         <div
           style={{
             width: "60%",
@@ -139,6 +141,7 @@ export default function UploadBook(props) {
           }}
         >
           <Button
+            fullWidth
             style={{ textAlign: "center" }}
             onClick={() => {
               setShowCatagories(true);

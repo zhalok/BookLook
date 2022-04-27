@@ -8,13 +8,12 @@ publication varchar(256) not null,
 author varchar(256) not null,
 edition varchar(10) ,
 availibility boolean not null,
+course varchar(256),
 reviews int not null,
 uploader varchar(256) not null,
-upload_time date not null,
+upload_time date not null
 
 
 
 )
 
--- -- drop table books;
--- drop table books;
