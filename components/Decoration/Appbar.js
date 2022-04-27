@@ -16,6 +16,7 @@ const pages = [
   { name: "Books", link: "/" },
   { name: "Contribute", link: "/upload" },
 ];
+
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Appbar = () => {

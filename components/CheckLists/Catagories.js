@@ -20,7 +20,12 @@ const style = {
   p: 4,
 };
 
-export default function Catagories({ catagoryStates, show, setShow }) {
+export default function Catagories({
+  catagories,
+  setCatagories,
+  show,
+  setShow,
+}) {
   return (
     <div
       style={{
@@ -46,37 +51,26 @@ export default function Catagories({ catagoryStates, show, setShow }) {
               overflowY: "auto",
             }}
           >
-            {catagoryStates.map((e) => (
-              <MenuItem value={e[0].name}>
+            {catagories.map((e, index) => (
+              <MenuItem value={e.name} key={index}>
                 <Checkbox
-                  checked={e[0].selected}
+                  checked={e.selected}
                   onChange={(event) => {
-                    e[1]({ name: e[0].name, selected: event.target.checked });
+                    setCatagories((prevState) => {
+                      let newState = [...prevState];
+                      newState[index].selected = event.target.checked;
+                      return newState;
+                    });
                   }}
                 />
-                {e[0].name}
+                {e.name}
               </MenuItem>
             ))}
           </div>
-
-          {/* <Button
-						style={{ marginTop: '20px' }}
-						onClick={() => {
-							let selected = [];
-							for (let i = 0; i < catagoryList.length; i++) {
-								if (catagoryList[i].selected == true) {
-									selected.push(catagoryList[i].name);
-								}
-							}
-							setCatagories(selected);
-							setShow(false);
-						}}
-					>
-						Select
-					</Button> */}
         </Box>
       </Modal>
     </div>
   );
+
   // }
 }
