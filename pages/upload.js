@@ -54,6 +54,10 @@ export default function UploadBook(props) {
   };
 
   const uploadData = async () => {
+    const selected_catagories = [];
+    for (let i = 0; i < catagories.length; i++)
+      if (catagories[i].selected) selected_catagories.push(catagories[i].name);
+
     try {
       setLoading(true);
       const response = await fetch(
@@ -70,16 +74,17 @@ export default function UploadBook(props) {
             edition,
             availibility,
             course,
+            catagories: selected_catagories,
             reviews: 0,
             uploader,
-            uploadTime: DateGenerator(),
+            upload_time: DateGenerator(),
           }),
         }
       );
       const data = await response.json();
-      // console.log(data[0].id);
-      // const prom = await uploadFile(data[0].id);
-      // console.log(prom);
+
+      const prom = await uploadFile(data[0].id);
+
       setName("");
       setAuthor("");
       setEdition("");
@@ -89,6 +94,7 @@ export default function UploadBook(props) {
       setSuccessMessage(true);
       setFile("");
       setFileName("");
+      setCourse("");
     } catch (e) {
       alert(e);
     }
