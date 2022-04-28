@@ -132,6 +132,7 @@ export default function UploadBook(props) {
         />
         <CourseField course={course} setCourse={setCourse} />
         <div
+          id="select-catagory-button"
           style={{
             width: "60%",
             marginLeft: "auto",

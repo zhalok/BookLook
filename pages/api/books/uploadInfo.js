@@ -1,5 +1,4 @@
 const mysqlClient = require("../../../utils/database_connection");
-const insertStringGenerator = require("../../../utils/queryStringGenerators/books/insertStringGenerator");
 
 export default function handler(req, res) {
   const queryString =
