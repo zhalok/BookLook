@@ -1,13 +1,13 @@
 import Head from "next/head";
-import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import BookCard from "../components/Cards/BookCard";
 import { useEffect } from "react";
 import AppBar from "../components/Decoration/Appbar";
+import BookList from "../components/Lists/BookList";
+import { Button } from "@mui/material";
+import Filter from "../components/Filter";
 // require("../queries/create-table-books.sql")
 
 export default function Home({ Message, Books }) {
@@ -34,34 +34,8 @@ export default function Home({ Message, Books }) {
       <AppBar />
 
       <div style={{ marginTop: "30px" }}>
-        <Grid container spacing={2}>
-          <Grid item xs={3} style={{ marginLeft: "auto", marginRight: "auto" }}>
-            <Item style={{ color: "black", border: "1px solid black" }}>
-              Filter
-            </Item>
-          </Grid>
-          <Grid
-            item
-            xs={10}
-            style={{ marginLeft: "auto", marginRight: "auto" }}
-          >
-            <Grid
-              container
-              spacing={2}
-              style={{
-                marginTop: "",
-                marginBottom: "50px",
-                padding: "20px",
-              }}
-            >
-              {Books.map((e, index) => (
-                <Grid key={index} item xs={4} style={{ marginTop: "20px" }}>
-                  <BookCard info={e} />
-                </Grid>
-              ))}
-            </Grid>
-          </Grid>
-        </Grid>
+        <Filter />
+        <BookList booklist={Books} />
       </div>
     </div>
   );
