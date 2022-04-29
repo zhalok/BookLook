@@ -1,5 +1,6 @@
 import styles from "../../styles/Home.module.css";
-import { Modal, Box, Typography } from "@mui/material";
+import { Modal, Box, Typography, MenuItem } from "@mui/material";
+import { useEffect, useState } from "react";
 
 export default function AuthorFilter({ show, setShow }) {
   const style = {
@@ -14,6 +15,22 @@ export default function AuthorFilter({ show, setShow }) {
     p: 4,
   };
 
+  const [authors, setAuthors] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/api/authors/get-all")
+      .then((res) => res.json())
+      .then((data) => {
+        let _authors = [];
+        for (let i = 0; i < data.length; i++) {
+          const name = data[i].author;
+          _authors.push({ name, selected: false });
+        }
+        return setAuthors(_authors);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div className={styles.container}>
       <Modal
@@ -25,9 +42,33 @@ export default function AuthorFilter({ show, setShow }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            AuthorFilter
-          </Typography>
+          <div
+            style={{
+              height: "300px",
+              overflowY: "auto",
+            }}
+          >
+            {authors.map((e, index) => (
+              <MenuItem value={e.name} key={index}>
+                {e.name}
+              </MenuItem>
+            ))}
+            {/* {authors.map((e, index) => (
+              <MenuItem value={e.name} key={index}>
+                <Checkbox
+                  checked={e.selected}
+                  onChange={(event) => {
+                    setAuthors((prevState) => {
+                      let newState = [...prevState];
+                      newState[index].selected = event.target.checked;
+                      return newState;
+                    });
+                  }}
+                />
+                {e.name}
+              </MenuItem>
+            ))} */}
+          </div>
         </Box>
       </Modal>
     </div>
