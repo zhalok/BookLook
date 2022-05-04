@@ -7,6 +7,10 @@ export default function Filter({}) {
   const [authors, setAuthors] = useState([]);
   const [showPublications, setShowPublications] = useState(false);
   const [publications, setPublications] = useState([]);
+  const [catagories, setCatagories] = useState([]);
+  const [showCatagories, setShowCatagories] = useState(false);
+  const [courses, setCourses] = useState([]);
+  const [showCourses, setShowCourses] = useState(false);
 
   useEffect(() => {
     fetch(`http://localhost:3000/api/authors/get-all`)
@@ -17,7 +21,7 @@ export default function Filter({}) {
           const name = data[i];
           _info.push({ name, selected: false });
         }
-        return setAuthors(_info);
+        setAuthors(_info);
       })
       .catch((err) => console.log(err));
 
@@ -29,10 +33,36 @@ export default function Filter({}) {
           const name = data[i];
           _info.push({ name, selected: false });
         }
-        return setPublications(_info);
+
+        setPublications(_info);
       })
       .catch((err) => console.log(err));
-    console.log(publications);
+
+    fetch(`http://localhost:3000/api/catagories/get-all`)
+      .then((res) => res.json())
+      .then((data) => {
+        let _info = [];
+        for (let i = 0; i < data.length; i++) {
+          const name = data[i];
+          _info.push({ name, selected: false });
+        }
+
+        setCatagories(_info);
+      })
+      .catch((err) => console.log(err));
+
+    fetch(`http://localhost:3000/api/courses/get-all`)
+      .then((res) => res.json())
+      .then((data) => {
+        let _info = [];
+        for (let i = 0; i < data.length; i++) {
+          const name = data[i];
+          _info.push({ name, selected: false });
+        }
+
+        setCourses(_info);
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   return (
@@ -45,9 +75,6 @@ export default function Filter({}) {
           width: "50%",
         }}
       >
-        <div>
-          <Button variant="contained">Filter</Button>
-        </div>
         <div>
           <FilterParam
             paramName={"authors"}
@@ -80,10 +107,38 @@ export default function Filter({}) {
           </Button>
         </div>
         <div>
-          <Button>Select Catagories</Button>
+          <FilterParam
+            show={showCatagories}
+            setShow={setShowCatagories}
+            info={catagories}
+            setInfo={setCatagories}
+          />
+          <Button
+            onClick={() => {
+              setShowCatagories(true);
+            }}
+          >
+            Select Catagories
+          </Button>
         </div>
         <div>
-          <Button>Select Courses</Button>
+          <FilterParam
+            show={showCourses}
+            setShow={setShowCourses}
+            info={courses}
+            setInfo={setCourses}
+          />
+          <Button
+            onClick={() => {
+              setShowCourses(true);
+            }}
+          >
+            {" "}
+            Select Courses
+          </Button>
+        </div>
+        <div>
+          <Button variant="contained">Filter</Button>
         </div>
       </div>
     </div>

@@ -11,6 +11,10 @@ export default async function (req, res) {
     });
   });
   const data = await promise;
+  const _data = [];
+  for (let i = 0; i < data.length; i++) {
+    _data.push(data[i].name);
+  }
 
-  res.json(data);
+  res.json(_data);
 }
