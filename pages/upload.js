@@ -118,6 +118,8 @@ export default function UploadBook() {
       setFile("");
       setFileName("");
       setCourse("");
+      for (let i = 0; i < catagories.length; i++)
+        catagories[i].selected = false;
     } catch (e) {
       alert(e);
     }
