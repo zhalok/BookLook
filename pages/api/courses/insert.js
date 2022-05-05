@@ -4,7 +4,7 @@ export default function handler(req, res) {
     res.status(405).json({ message: "wrong method" });
     return;
   }
-  const { name } = req.query;
+  const { name } = req.body;
   mysqlClient.query(
     `insert into courses (name) values ('${name}')`,
     (err, rows, fields) => {

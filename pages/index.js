@@ -3,7 +3,7 @@ import styles from "../styles/Home.module.css";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AppBar from "../components/Decoration/Appbar";
 import BookList from "../components/Lists/BookList";
 import { Button } from "@mui/material";
@@ -11,7 +11,11 @@ import Filter from "../components/Filter";
 // require("../queries/create-table-books.sql")
 
 export default function Home({ Message, Books }) {
-  console.log(Books);
+  // console.log(Books);
+  const [books, setBooks] = useState([]);
+  useEffect(() => {
+    setBooks(Books);
+  });
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -34,8 +38,8 @@ export default function Home({ Message, Books }) {
       <AppBar />
 
       <div style={{ marginTop: "30px" }}>
-        <Filter />
-        <BookList booklist={Books} />
+        <Filter setBook />
+        <BookList booklist={books} />
       </div>
     </div>
   );
@@ -52,7 +56,7 @@ export async function getServerSideProps({ req, res }) {
     });
   });
   const result = await promise;
-  console.log(result);
+  // console.log(result);
   const _result = [];
   for (let i = 0; i < result.length; i++) {
     let _res = JSON.stringify(result[i]);
