@@ -17,10 +17,11 @@ import AvailibilityField from "../components/SelectFields/AvailibilityField";
 import { Button } from "@mui/material";
 import CourseField from "../components/SelectFields/CourseField";
 
-export default function UploadBook(props) {
+export default function UploadBook() {
   const [name, setName] = useState("");
   const [author, setAuthor] = useState("");
-  const [publication, setPublication] = useState([]);
+  const [publication, setPublication] = useState("");
+  const [publicationList, setPublicationList] = useState([]);
   const [edition, setEdition] = useState("");
   const [availibility, setAvailibility] = useState("");
   const [catagories, setCatagories] = useState([]);
@@ -35,14 +36,29 @@ export default function UploadBook(props) {
   useEffect(() => {
     document.body.style.backgroundColor = "#eeeeff";
     setUploader("zhalok");
-
-    let _catagories = [];
-    for (let i = 0; i < props.catagories.length; i++) {
-      _catagories.push({ name: props.catagories[i], selected: false });
-    }
-
-    setCatagories(_catagories);
-    setCourseList(props.courses);
+    fetch("http://localhost:3000/api/courses/get-all?name=")
+      .then((res) => res.json())
+      .then((data) => {
+        setCourseList(data);
+      })
+      .catch((e) => console.log(e));
+    fetch("http://localhost:3000/api/publications/get-all?name=")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setPublicationList(data);
+      })
+      .catch((e) => console.log(e));
+    fetch("http://localhost:3000/api/catagories/get-all")
+      .then((res) => res.json())
+      .then((data) => {
+        const _data = [];
+        for (let i = 0; i < data.length; i++) {
+          _data.push({ name: data[i], selected: false });
+        }
+        setCatagories(_data);
+      })
+      .catch((e) => console.log(e));
   }, []);
 
   const uploadFile = async (id) => {
@@ -107,6 +123,8 @@ export default function UploadBook(props) {
     }
   };
 
+  const upload = () => {};
+
   return (
     <div className={styles.container}>
       <Appbar />
@@ -130,6 +148,7 @@ export default function UploadBook(props) {
         <PublicationField
           publication={publication}
           setPublication={setPublication}
+          publicationList={publicationList}
         />
 
         <EditionField edition={edition} setEdition={setEdition} />
@@ -179,23 +198,4 @@ export default function UploadBook(props) {
       </div>
     </div>
   );
-}
-
-export async function getServerSideProps(context) {
-  try {
-    const catagories_response = await fetch(
-      "http://localhost:3000/api/catagories/get-all"
-    );
-    const catagories = await catagories_response.json();
-    const course_response = await fetch(
-      "http://localhost:3000/api/courses/get-all"
-    );
-    const courses = await course_response.json();
-    console.log(courses);
-    return {
-      props: { catagories, courses },
-    };
-  } catch (e) {
-    console.log(e);
-  }
 }

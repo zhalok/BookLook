@@ -5,17 +5,12 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-export default function PublicationField({ publication, setPublication }) {
-  const [publicationList, setPublicationList] = useState([]);
-
-  useEffect(() => {
-    // const publications = ['Pearson', 'Scaums Outline'];
-    setPublicationList(publication);
-  }, []);
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
+export default function PublicationField({
+  publication,
+  setPublication,
+  publicationList,
+}) {
+  // const [publicationList, setPublicationList] = useState([]);
 
   return (
     <div

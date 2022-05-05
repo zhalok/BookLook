@@ -63,7 +63,7 @@ const Appbar = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page, index) => (
-              <Link href={page.link}>
+              <Link href={page.link} key={index}>
                 <a>
                   <Button
                     key={index}
