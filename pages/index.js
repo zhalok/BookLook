@@ -38,7 +38,7 @@ export default function Home({ Message, Books }) {
       <AppBar />
 
       <div style={{ marginTop: "30px" }}>
-        <Filter setBook />
+        <Filter setBooks={setBooks} />
         <BookList booklist={books} />
       </div>
     </div>

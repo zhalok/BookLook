@@ -15,6 +15,5 @@ export default async function (req, res) {
   for (let i = 0; i < data.length; i++) {
     _data.push(data[i].name);
   }
-
   res.json(_data);
 }

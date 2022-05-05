@@ -15,12 +15,12 @@ import PublicationField from "../components/SelectFields/PublicationField";
 import EditionField from "../components/TextFields/EditionField";
 import AvailibilityField from "../components/SelectFields/AvailibilityField";
 import { Button } from "@mui/material";
-import CourseField from "../components/TextFields/CourseField";
+import CourseField from "../components/SelectFields/CourseField";
 
 export default function UploadBook(props) {
   const [name, setName] = useState("");
   const [author, setAuthor] = useState("");
-  const [publication, setPublication] = useState("");
+  const [publication, setPublication] = useState([]);
   const [edition, setEdition] = useState("");
   const [availibility, setAvailibility] = useState("");
   const [catagories, setCatagories] = useState([]);
@@ -31,11 +31,18 @@ export default function UploadBook(props) {
   const [fileName, setFileName] = useState("");
   const [showCatagories, setShowCatagories] = useState(false);
   const [course, setCourse] = useState("");
-
+  const [courseList, setCourseList] = useState([]);
   useEffect(() => {
     document.body.style.backgroundColor = "#eeeeff";
     setUploader("zhalok");
-    setCatagories(props.catagories);
+
+    let _catagories = [];
+    for (let i = 0; i < props.catagories.length; i++) {
+      _catagories.push({ name: props.catagories[i], selected: false });
+    }
+
+    setCatagories(_catagories);
+    setCourseList(props.courses);
   }, []);
 
   const uploadFile = async (id) => {
@@ -136,7 +143,11 @@ export default function UploadBook(props) {
           show={showCatagories}
           setShow={setShowCatagories}
         />
-        <CourseField course={course} setCourse={setCourse} />
+        <CourseField
+          courseList={courseList}
+          course={course}
+          setCourse={setCourse}
+        />
         <div
           id="select-catagory-button"
           style={{
@@ -171,12 +182,20 @@ export default function UploadBook(props) {
 }
 
 export async function getServerSideProps(context) {
-  const catagories_response = await fetch(
-    "http://localhost:3000/api/catagories/get-all"
-  );
-  const catagories = await catagories_response.json();
-
-  return {
-    props: { catagories },
-  };
+  try {
+    const catagories_response = await fetch(
+      "http://localhost:3000/api/catagories/get-all"
+    );
+    const catagories = await catagories_response.json();
+    const course_response = await fetch(
+      "http://localhost:3000/api/courses/get-all"
+    );
+    const courses = await course_response.json();
+    console.log(courses);
+    return {
+      props: { catagories, courses },
+    };
+  } catch (e) {
+    console.log(e);
+  }
 }

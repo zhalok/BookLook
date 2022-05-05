@@ -65,6 +65,8 @@ export default function Filter({}) {
       .catch((err) => console.log(err));
   }, []);
 
+  const filterBooks = () => {};
+
   return (
     <div className={styles.container}>
       <div

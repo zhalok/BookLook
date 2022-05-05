@@ -5,18 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-export default function PublicationField({ publication, setPublication }) {
-  const [publicationList, setPublicationList] = useState([]);
-
-  useEffect(() => {
-    // const publications = ['Pearson', 'Scaums Outline'];
-    setPublicationList(publication);
-  }, []);
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-
+export default function CourseField({ courseList, course, setCourse }) {
   return (
     <div
       style={{
@@ -29,17 +18,17 @@ export default function PublicationField({ publication, setPublication }) {
     >
       <Box sx={{ minWidth: 120 }}>
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Publications</InputLabel>
+          <InputLabel id="demo-simple-select-label">Course</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={publication}
-            label="Publications"
+            value={course}
+            label="Course"
             onChange={(e) => {
-              setPublication(e.target.value);
+              setCourse(e.target.value);
             }}
           >
-            {publicationList.map((info, index) => (
+            {courseList.map((info, index) => (
               <MenuItem key={index} value={info}>
                 {info}
               </MenuItem>

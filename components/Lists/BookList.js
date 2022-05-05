@@ -7,7 +7,7 @@ export default function BookList({ booklist }) {
       <Grid item xs={10} style={{ marginLeft: "auto", marginRight: "auto" }}>
         <Grid
           container
-          spacing={2}
+          spacing={1}
           style={{
             marginTop: "",
             marginBottom: "50px",
@@ -15,7 +15,7 @@ export default function BookList({ booklist }) {
           }}
         >
           {booklist.map((e, index) => (
-            <Grid key={index} item xs={4} style={{ marginTop: "20px" }}>
+            <Grid key={index} item xs={3} style={{ marginTop: "20px" }}>
               <BookCard info={e} />
             </Grid>
           ))}

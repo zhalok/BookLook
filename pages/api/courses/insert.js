@@ -1,27 +1,35 @@
 const mysqlClient = require("../../../utils/database_connection");
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method != "POST") {
     res.status(405).json({ message: "wrong method" });
     return;
   }
   const { name } = req.body;
-  mysqlClient.query(
-    `insert into courses (name) values ('${name}')`,
-    (err, rows, fields) => {
-      if (err) {
-        res.json(err);
-      } else {
-        mysqlClient.query(
-          "select id from courses order by id desc limit 1",
-          (err, rows1, fields) => {
-            if (err) {
-              res.json(err);
-            } else {
-              res.json(rows1);
+  const promise = new Promise((resolve, reject) => {
+    mysqlClient.query(
+      `insert into courses (name) values ('${name}')`,
+      (err, rows, fields) => {
+        if (err) {
+          // res.json(err);
+          reject(err);
+        } else {
+          mysqlClient.query(
+            "select id from courses order by id desc limit 1",
+            (err1, rows1, fields) => {
+              if (err1) {
+                // res.json(err);
+                reject(err1);
+              } else {
+                // res.json(rows1);
+                resolve(rows1);
+              }
             }
-          }
-        );
+          );
+        }
       }
-    }
-  );
+    );
+  });
+
+  const response = await promise;
+  res.json(response);
 }
