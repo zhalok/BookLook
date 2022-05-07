@@ -2,7 +2,7 @@ import styles from "../styles/Home.module.css";
 import { Button } from "@mui/material";
 import FilterParam from "./Modals/FilterParam";
 import { useEffect, useState } from "react";
-export default function Filter({}) {
+export default function Filter({ setBooks }) {
   const [showAuthors, setShowAuthors] = useState(false);
   const [authors, setAuthors] = useState([]);
   const [showPublications, setShowPublications] = useState(false);
@@ -64,6 +64,44 @@ export default function Filter({}) {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  const filterBooks = () => {
+    const authorList = [];
+    const publicationList = [];
+    const catagoryList = [];
+    const coursesList = [];
+
+    for (let i = 0; i < authors.length; i++)
+      if (authors[i].selected == true) authorList.push(authors[i].name);
+    for (let i = 0; i < publications.length; i++)
+      if (publications[i].selected == true)
+        publicationList.push(publications[i].name);
+    for (let i = 0; i < catagories.length; i++)
+      if (catagories[i].selected == true) catagoryList.push(catagories[i].name);
+    for (let i = 0; i < courses.length; i++)
+      if (courses[i].selected == true) coursesList.push(courses[i].name);
+
+    console.log(authorList, publicationList, catagoryList, coursesList);
+
+    fetch("http://localhost:3000/api/books/filter-books", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        authors: authorList,
+        publications: publicationList,
+        catagories: catagoryList,
+        courses: coursesList,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setBooks(data);
+      })
+      .catch((e) => console.log(e));
+  };
 
   return (
     <div className={styles.container}>
@@ -138,7 +176,14 @@ export default function Filter({}) {
           </Button>
         </div>
         <div>
-          <Button variant="contained">Filter</Button>
+          <Button
+            onClick={() => {
+              filterBooks();
+            }}
+            variant="contained"
+          >
+            Filter
+          </Button>
         </div>
       </div>
     </div>

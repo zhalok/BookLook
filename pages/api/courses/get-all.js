@@ -11,10 +11,10 @@ export default async function (req, res) {
     });
   });
   const data = await promise;
-  const _data = [];
+  let _data = [];
   for (let i = 0; i < data.length; i++) {
     _data.push(data[i].name);
   }
-
   res.json(_data);
+  // res.json({ message: "hello" });
 }

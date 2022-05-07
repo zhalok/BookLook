@@ -15,12 +15,13 @@ import PublicationField from "../components/SelectFields/PublicationField";
 import EditionField from "../components/TextFields/EditionField";
 import AvailibilityField from "../components/SelectFields/AvailibilityField";
 import { Button } from "@mui/material";
-import CourseField from "../components/TextFields/CourseField";
+import CourseField from "../components/SelectFields/CourseField";
 
-export default function UploadBook(props) {
+export default function UploadBook() {
   const [name, setName] = useState("");
   const [author, setAuthor] = useState("");
   const [publication, setPublication] = useState("");
+  const [publicationList, setPublicationList] = useState([]);
   const [edition, setEdition] = useState("");
   const [availibility, setAvailibility] = useState("");
   const [catagories, setCatagories] = useState([]);
@@ -31,11 +32,33 @@ export default function UploadBook(props) {
   const [fileName, setFileName] = useState("");
   const [showCatagories, setShowCatagories] = useState(false);
   const [course, setCourse] = useState("");
-
+  const [courseList, setCourseList] = useState([]);
   useEffect(() => {
     document.body.style.backgroundColor = "#eeeeff";
     setUploader("zhalok");
-    setCatagories(props.catagories);
+    fetch("http://localhost:3000/api/courses/get-all?name=")
+      .then((res) => res.json())
+      .then((data) => {
+        setCourseList(data);
+      })
+      .catch((e) => console.log(e));
+    fetch("http://localhost:3000/api/publications/get-all?name=")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setPublicationList(data);
+      })
+      .catch((e) => console.log(e));
+    fetch("http://localhost:3000/api/catagories/get-all")
+      .then((res) => res.json())
+      .then((data) => {
+        const _data = [];
+        for (let i = 0; i < data.length; i++) {
+          _data.push({ name: data[i], selected: false });
+        }
+        setCatagories(_data);
+      })
+      .catch((e) => console.log(e));
   }, []);
 
   const uploadFile = async (id) => {
@@ -95,10 +118,14 @@ export default function UploadBook(props) {
       setFile("");
       setFileName("");
       setCourse("");
+      for (let i = 0; i < catagories.length; i++)
+        catagories[i].selected = false;
     } catch (e) {
       alert(e);
     }
   };
+
+  const upload = () => {};
 
   return (
     <div className={styles.container}>
@@ -123,6 +150,7 @@ export default function UploadBook(props) {
         <PublicationField
           publication={publication}
           setPublication={setPublication}
+          publicationList={publicationList}
         />
 
         <EditionField edition={edition} setEdition={setEdition} />
@@ -136,7 +164,11 @@ export default function UploadBook(props) {
           show={showCatagories}
           setShow={setShowCatagories}
         />
-        <CourseField course={course} setCourse={setCourse} />
+        <CourseField
+          courseList={courseList}
+          course={course}
+          setCourse={setCourse}
+        />
         <div
           id="select-catagory-button"
           style={{
@@ -168,15 +200,4 @@ export default function UploadBook(props) {
       </div>
     </div>
   );
-}
-
-export async function getServerSideProps(context) {
-  const catagories_response = await fetch(
-    "http://localhost:3000/api/catagories/get-all"
-  );
-  const catagories = await catagories_response.json();
-
-  return {
-    props: { catagories },
-  };
 }

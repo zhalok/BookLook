@@ -2,7 +2,7 @@ const mysqlClient = require("../../../utils/database_connection");
 
 export default async function handler(req, res) {
   const queryString =
-    "insert into books (name,publication,author,edition,availibility,course,reviews,uploader,upload_time) values ?";
+    "insert into books (name,publication,author,edition,availibility,reviews,uploader,upload_time) values ?";
   const {
     name,
     publication,
@@ -15,8 +15,7 @@ export default async function handler(req, res) {
     uploader,
     upload_time,
   } = req.body;
-  // console.log(upload_time);
-  // console.log(catagories);
+
   const values = [
     [
       [
@@ -25,7 +24,6 @@ export default async function handler(req, res) {
         author,
         edition,
         availibility,
-        course,
         reviews,
         uploader,
         upload_time,
@@ -63,7 +61,7 @@ export default async function handler(req, res) {
       book_catagory_rows.push([bookId, catagories[i]]);
     }
 
-    const promise3 = new Promise((resolve, reject) => {
+    const promise2 = new Promise((resolve, reject) => {
       mysqlClient.query(
         "insert into books_catagories(bookId,catagory) values ?",
         [book_catagory_rows],
@@ -76,6 +74,21 @@ export default async function handler(req, res) {
         }
       );
     });
+
+    const promise3 = new Promise((resolve, reject) => {
+      mysqlClient.query(
+        "insert into book_courses(bookId,course) values ?",
+        [[[bookId, course]]],
+        (err, rows, fields) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(rows);
+          }
+        }
+      );
+    });
+
     res.json(response1);
   } catch (e) {
     res.json(e);

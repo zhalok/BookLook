@@ -5,22 +5,20 @@ export default async function handler(req, res) {
     return;
   }
   const { name } = req.body;
+  console.log(name);
   const promise = new Promise((resolve, reject) => {
     mysqlClient.query(
-      `insert into courses (name) values ('${name}')`,
+      `insert into publications (name) values ('${name}')`,
       (err, rows, fields) => {
         if (err) {
-          // res.json(err);
           reject(err);
         } else {
           mysqlClient.query(
-            "select id from courses order by id desc limit 1",
-            (err1, rows1, fields) => {
-              if (err1) {
-                // res.json(err);
-                reject(err1);
+            "select id from publications order by id desc limit 1",
+            (err, rows1, fields) => {
+              if (err) {
+                reject(err);
               } else {
-                // res.json(rows1);
                 resolve(rows1);
               }
             }
@@ -30,6 +28,6 @@ export default async function handler(req, res) {
     );
   });
 
-  const response = await promise;
-  res.json(response);
+  const data = await promise;
+  res.json(data);
 }
