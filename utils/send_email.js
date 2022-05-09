@@ -9,11 +9,11 @@ const CLIENT_ID =
 const CLEINT_SECRET = "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";
 
 const ACCESS_TOKEN =
-  "ya29.A0ARrdaM-rWSIc8yzHF1kUUn_Ala9WNiAmNzHvuE66B3ZslT-AdEQ_vY9anrbivstcXlpR2tElM-OPttomwId_ag-edGlH3rOals4TAgZnpwcqNlB675FXgIQF-B6FLM2HOzfn4U5li0qAHGAL4uXbpBLOkNzZ";
+  "ya29.A0ARrdaM9FEfucMcphy8SAEC4ylFZh6a_vCXuN1FbGAR4oigG9oQyfGoPfHYGXLi4Hj4zpAACdAgJ6UcnjOyRPbusasaRvMirahEq9Cu8cNow0ZZtdHyKNrRjwRPk1W1-ZR7MAWLlCd6-jsZc7uNFT4m1TUFxl";
 
-console.log(CLIENT_ID, CLEINT_SECRET);
+// console.log(CLIENT_ID, CLEINT_SECRET);
 
-async function sendMail() {
+async function sendMail(to, message) {
   try {
     // const accessToken = await oAuth2Client.getAccessToken();
 
@@ -23,17 +23,16 @@ async function sendMail() {
         type: "OAuth2",
         user: "zhalokrahman007@gmail.com",
         clientId: CLIENT_ID,
-        clientSecret: CLEINT_SECRET,
         accessToken: ACCESS_TOKEN,
       },
     });
 
     const mailOptions = {
       from: "zhalokrahman007@gmail.com",
-      to: "zhalokrahman007@gmail.com",
+      to: to,
       subject: "Hello from gmail using API",
-      text: "Hello from gmail email using API",
-      html: "<h1>Hello from gmail email using API</h1>",
+      text: `${message}`,
+      html: `<h1>${message}</h1>`,
     };
 
     const result = await transport.sendMail(mailOptions);
@@ -43,6 +42,27 @@ async function sendMail() {
   }
 }
 
-sendMail()
-  .then((result) => console.log("Email sent...", result))
-  .catch((error) => console.log(error.message));
+const emails = [
+  {
+    to: "tabassumkaifa2@gmail.com",
+    message: "Ei email paile ignore koirao hudai ditesi test korar jonne ",
+  },
+  {
+    to: "reefat.raha2018@gmail.com",
+    message: "Ei email paile ignore koirao hudai ditesi test korar jonne ",
+  },
+  {
+    to: "Anikaaurpy123@gmail.com",
+    message: "Ei email paile ignore koirao hudai ditesi test korar jonne ",
+  },
+  {
+    to: "tasmiatahmida.8@gmail.com",
+    message: "Ei email paile ignore koirao hudai ditesi test korar jonne ",
+  },
+];
+
+emails.forEach(({ to, message }) =>
+  sendMail(to, message)
+    .then((result) => console.log("Email sent...", result))
+    .catch((error) => console.log(error.message))
+);
