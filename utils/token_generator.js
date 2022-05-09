@@ -13,5 +13,3 @@ token_generation.generate = (digits) => {
 };
 
 module.exports = token_generation;
-
-// console.log(token_generation.generate(10));
