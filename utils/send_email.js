@@ -3,17 +3,18 @@ const fs = require("fs");
 
 async function sendMail(to, message) {
   try {
-    var transport = nodemailer.createTransport({
-      host: "smtp.mailtrap.io",
-      port: 2525,
+    let transport = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
-        user: "9028737e3001b3",
-        pass: "27c7c444a88bce",
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
     const mailOptions = {
-      from: "zhalokrahman007@gmail.com",
+      from: "rahmanzhalok@gmail.com",
       to: to,
       subject: "Hello from nodemailer",
       text: `${message}`,
@@ -26,18 +27,5 @@ async function sendMail(to, message) {
     return error;
   }
 }
-
-sendMail(
-  "upalkundu287@gmail.com",
-  "I am sorry if you are getting this email please ignore"
-)
-  .then((e) => {
-    console.log("YES");
-    console.log(e);
-  })
-  .catch((e) => {
-    console.log("No");
-    console.log(e);
-  });
 
 module.exports = sendMail;
