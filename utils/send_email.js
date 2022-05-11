@@ -16,9 +16,9 @@ async function sendMail(to, message) {
     const mailOptions = {
       from: "rahmanzhalok@gmail.com",
       to: to,
-      subject: "Hello from nodemailer",
+      subject: "Email verification for BookLook",
       text: `${message}`,
-      html: `<h1>${message}</h1>`,
+      html: `<p>${message}</p>`,
     };
 
     const result = await transport.sendMail(mailOptions);
