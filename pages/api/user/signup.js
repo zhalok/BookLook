@@ -1,6 +1,7 @@
 const mysqlClient = require("../../../utils/database_connection");
 const protection = require("../../../utils/protection");
-const token_generator = require("../../../utils/token_generator");
+const otp_generator = require("../../../utils/otp_generator");
+const send_email = require("../../../utils/send_email");
 
 export default async function handler(req, res) {
   if (req.method != "POST") {
@@ -32,18 +33,19 @@ export default async function handler(req, res) {
 
   const userId = data[0].id;
 
-  const { token, expiration_time } = token_generator.generate(8);
+  const { otp, expiration_time } = otp_generator.generate(8);
 
   await new Promise((resolve, reject) => {
     mysqlClient.query(
-      "insert into tokens (userId,token,expiration_time) values (?)",
-      [[userId, token, expiration_time]],
+      "insert into otps (userId,otp,expiration_time) values (?)",
+      [[userId, otp, expiration_time]],
       (err, rows) => {
         if (err) reject(err);
         else resolve(rows);
       }
     );
   });
-
+  const message = `verification code ${otp}`;
+  await send_email(email, message);
   res.json(data);
 }
