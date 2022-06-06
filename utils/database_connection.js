@@ -7,6 +7,6 @@ const mysqlClient = mysql.createConnection({
 });
 // mysql -h bqlz2crijfharfe0jjuo-mysql.services.clever-cloud.com -P 3306 -u unf1qnyqmdbosd8m -p bqlz2crijfharfe0jjuo
 // connection string
-mysqlClient.connect();
+// mysqlClient.connect();
 
 module.exports = mysqlClient;
