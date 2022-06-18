@@ -25,9 +25,9 @@ export default function Home({ Message, Books }) {
   if (Message) {
     return <div>Connected</div>;
   }
-  useEffect(() => {
-    document.body.style.backgroundColor = "#eeeeff";
-  }, []);
+  // useEffect(() => {
+  //   document.body.style.backgroundColor = "#eeeeff";
+  // }, []);
   return (
     <div className={styles.container} style={{}}>
       <Head>

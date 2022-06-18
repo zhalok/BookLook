@@ -15,7 +15,7 @@ const style = {
   p: 4,
 };
 
-export default function UploadSuccessMessage({ show, setShow }) {
+export default function SignupAlertModal({ show, setShow }) {
   return (
     <div>
       <Modal
@@ -28,10 +28,10 @@ export default function UploadSuccessMessage({ show, setShow }) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Upload Successful
+            Signup Successful
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Thank you for your contribution
+            Please verify your email
           </Typography>
         </Box>
       </Modal>
