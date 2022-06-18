@@ -2,13 +2,10 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
 import AppBar from "../components/Decoration/Appbar";
 import BookList from "../components/Lists/BookList";
-import { Button } from "@mui/material";
 import Filter from "../components/Filter";
-// require("../queries/create-table-books.sql")
 
 export default function Home({ Message, Books }) {
   // console.log(Books);
@@ -46,7 +43,9 @@ export default function Home({ Message, Books }) {
 }
 export async function getServerSideProps({ req, res }) {
   const mysqlClient = require("../utils/database_connection");
+
   const promise = new Promise((resolve, reject) => {
+    mysqlClient.connect();
     mysqlClient.query("select * from books", (error, result, fields) => {
       if (error) {
         reject(error);
@@ -54,9 +53,11 @@ export async function getServerSideProps({ req, res }) {
         resolve(result);
       }
     });
+    mysqlClient.end();
   });
+
   const result = await promise;
-  // console.log(result);
+
   const _result = [];
   for (let i = 0; i < result.length; i++) {
     let _res = JSON.stringify(result[i]);
