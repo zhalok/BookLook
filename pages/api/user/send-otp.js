@@ -27,6 +27,10 @@ export default async function handler(req, res) {
     );
   });
   const message = `<a href="http://localhost:3000/api/user/verify?otp=${otp}">Verify email<a>`;
-  await send_email(email, message);
-  res.json("verification email sent");
+  try {
+    await send_email(email, message);
+    res.json("verification email sent");
+  } catch (e) {
+    res.status(500).json(e);
+  }
 }
