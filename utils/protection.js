@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-
+const jwt = require("jsonwebtoken");
 const protection = {};
 
 protection.hash = (plainPassword) => {
@@ -10,6 +10,12 @@ protection.hash = (plainPassword) => {
 
 protection.compare = (password, hased_password) => {
   return bcrypt.compareSync(password, hased_password);
+};
+
+protection.token_generator = async (payload) => {
+  return await jwt.sign(payload, process.env.SECRET, {
+    expiresIn: "2 days",
+  });
 };
 
 module.exports = protection;
