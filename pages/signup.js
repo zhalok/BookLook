@@ -48,9 +48,7 @@ export default function SignUp() {
         alert(e);
       });
   };
-  useEffect(() => {
-    // document.body.style.backgroundColor = "white";
-  });
+
   return (
     <div>
       <Loading show={onLoader} />
