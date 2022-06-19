@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import SignupAlertModal from "../components/Modals/SignupAlertModal";
 import Loading from "../components/Modals/Loading";
+import { useRouter } from "next/router";
 export default function SignUp() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,72 +52,77 @@ export default function SignUp() {
     // document.body.style.backgroundColor = "white";
   });
   return (
-    <div id="signup-form">
-      <div>
-        <SignupAlertModal show={showModal} setShow={setShowModal} />
-        <Loading show={onLoader} />
-      </div>
-      <div>
-        <h1>Register</h1>
-      </div>
-      <div>
-        <input
-          className="input-box"
-          type="text"
-          value={name}
-          placeholder="Full Name"
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-        />
-      </div>
-      <div>
-        <input
-          className="input-box"
-          type="text"
-          value={email}
-          placeholder="Email"
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-      </div>
-      <div>
-        <input
-          className="input-box"
-          type="password"
-          value={password}
-          placeholder="Password"
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
-      </div>
-      <div>
-        <input
-          className="input-box"
-          type="password"
-          value={confirmedPassword}
-          placeholder="Confirmed Password"
-          onChange={(e) => {
-            setConfirmedPassword(e.target.value);
-          }}
-        />
-      </div>
-      <div style={{ marginTop: "30px" }}>
-        <button
-          className="submit-button"
-          onClick={() => {
-            signup();
-          }}
-        >
-          SignUp
-        </button>
-      </div>
-      <div>
-        <button style={{ backgroundColor: "red" }} className="submit-button">
-          Login
-        </button>
+    <div>
+      <Loading show={onLoader} />
+      <SignupAlertModal show={showModal} setShow={setShowModal} />
+      <div className="box">
+        <div>
+          <h1>Register</h1>
+        </div>
+        <div className="vertical">
+          <input
+            className="text-input"
+            type="text"
+            id="name"
+            name="firstname"
+            placeholder="Your name.."
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+          />
+          <input
+            className="text-input"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Your email.."
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+          <input
+            className="text-input"
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Your password.."
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+          <input
+            className="text-input"
+            type="password"
+            id="confirmed-password"
+            name="confirmed-password"
+            placeholder="Confirmed password.."
+            onChange={(e) => {
+              setConfirmedPassword(e.target.value);
+            }}
+          />
+        </div>
+        <div className="vertical" style={{ marginTop: "15px" }}>
+          <button
+            className="submit"
+            onClick={() => {
+              signup();
+            }}
+          >
+            SignUp
+          </button>
+          <div className="div-center">Or,</div>
+          <button
+            className="submit"
+            style={{ backgroundColor: "red" }}
+            onClick={() => {
+              router.push("/login");
+            }}
+          >
+            Login
+          </button>
+        </div>
+        <div className="horizontal"></div>
       </div>
     </div>
   );
