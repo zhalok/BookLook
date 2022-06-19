@@ -3,61 +3,43 @@ export default async function handler(req, res) {
   const { otp } = req.query;
 
   try {
-    const expiration_time = new Promise((resolve, reject) => {
-      mysqlClient.connect();
-      mysqlClient.query(
-        `select expiration_time from otps where otp = ${otp}`,
-        (err, rows) => {
-          if (err) reject(err);
-          else {
-            if (rows.length == 0) reject("Invalid otp");
-            else {
-              resolve(rows[0].expiration_time);
-            }
-          }
-        }
-      );
-      mysqlClient.end();
-    });
-    if (expiration_time < new Date().getTime() / 1000) {
-      res.status(401).json({
-        message: "OTP expired",
+    mysqlClient.connect();
+    let data = await new Promise((resolve, reject) => {
+      mysqlClient.query(`select * from otps where otp=${otp}`, (err, rows) => {
+        if (err) {
+          reject(err);
+        } else resolve(rows);
       });
+    });
+    if (data.length == 0) {
+      res.json({ message: "Invalid OTP" });
       return;
     }
-    const userId = await new Promise((resolve, reject) => {
-      mysqlClient.connect();
-      mysqlClient.query(
-        `select userId from otps where otp=${otp}`,
-        (err, rows) => {
-          if (err) reject(err);
-          else {
-            if (rows.length == 0) reject("User not found");
-            else resolve(rows[0].userId);
-          }
-        }
-      );
-      mysqlClient.end();
-    });
+
+    const { expiration_time, userId } = data[0];
+    const cur_time = new Date().getTime() / 1000;
+
+    console.log(cur_time, expiration_time);
+
+    if (expiration_time < cur_time) {
+      res.json({ message: "OTP expired" });
+      return;
+    }
 
     await new Promise((resolve, reject) => {
       mysqlClient.connect();
       mysqlClient.query(
         `update users set verified=true where id=${userId}`,
-        (err, rows) => {
+        (err) => {
           if (err) reject(err);
-          else {
-            resolve(rows);
-          }
+          else resolve();
         }
       );
-      mysqlClient.end();
     });
-
+    mysqlClient.end();
     res.redirect("/login");
   } catch (e) {
-    res.status(401).json({
-      message: "Unable to verify",
-    });
+    mysqlClient.end();
+    res.json(e);
   }
 }
