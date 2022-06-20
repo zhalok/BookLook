@@ -6,50 +6,40 @@ import { useRouter } from "next/router";
 
 export default function SignUp() {
   const router = useRouter();
-  const [name, setName] = useState("");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmedPassword, setConfirmedPassword] = useState("");
-  const [onLoader, setOnLoader] = useState(false);
-  const [showModal, setShowModal] = useState(false);
 
-  const signup = () => {
-    if (
-      name == "" ||
-      email == "" ||
-      password == "" ||
-      confirmedPassword == ""
-    ) {
-      alert("Please full-fill the forms");
-      return;
-    }
-    if (password != confirmedPassword) {
-      alert("Password and confirmed password did not match");
+  const [onLoader, setOnLoader] = useState(false);
+
+  const login = () => {
+    if (email == "" || password == "") {
+      alert("Please provide valid credentials");
       return;
     }
     setOnLoader(true);
-    fetch("http://localhost:3000/api/user/signup", {
+    fetch("http://localhost:3000/api/user/login", {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({ name, email, password, confirmedPassword }),
+      body: JSON.stringify({ email, password }),
     })
-      .then((res) => {
-        if (res.status == 500) {
-          alert("Email service error");
-        }
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
         setOnLoader(false);
-        setShowModal(true);
-      })
-      .catch((e) => {
+        console.log(data);
+        if (data.message && data.message == "Unauthenticated") {
+          alert(data.message);
+
+          return;
+        }
+
+        localStorage.setItem("userToken", data.token);
         setOnLoader(false);
-        // console.log(e);
-        alert(e);
-      });
+        router.push("/");
+      })
+      .catch((e) => alert(e));
   };
 
   useEffect(() => {
@@ -59,15 +49,15 @@ export default function SignUp() {
 
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <Loading show={onLoader} />
-      <SignupAlertModal show={showModal} setShow={setShowModal} />
+      {/* <SignupAlertModal show={showModal} setShow={setShowModal} /> */}
       <div className="box">
         <div>
-          <h1>Register</h1>
+          <h1>Login</h1>
         </div>
         <div className="vertical">
-          <input
+          {/* <input
             className="text-input"
             type="text"
             id="name"
@@ -77,7 +67,7 @@ export default function SignUp() {
             onChange={(e) => {
               setName(e.target.value);
             }}
-          />
+          /> */}
           <input
             className="text-input"
             type="email"
@@ -98,7 +88,7 @@ export default function SignUp() {
               setPassword(e.target.value);
             }}
           />
-          <input
+          {/* <input
             className="text-input"
             type="password"
             id="confirmed-password"
@@ -107,26 +97,26 @@ export default function SignUp() {
             onChange={(e) => {
               setConfirmedPassword(e.target.value);
             }}
-          />
+          /> */}
         </div>
         <div className="vertical" style={{ marginTop: "15px" }}>
           <button
             className="submit"
+            style={{ backgroundColor: "red" }}
             onClick={() => {
-              signup();
+              login();
             }}
           >
-            SignUp
+            Login
           </button>
           <div className="div-center">Or,</div>
           <button
             className="submit"
-            style={{ backgroundColor: "red" }}
             onClick={() => {
-              router.push("/login");
+              router.push("/signup");
             }}
           >
-            Login
+            SignUp
           </button>
         </div>
         <div className="horizontal"></div>

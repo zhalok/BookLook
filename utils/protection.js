@@ -13,7 +13,7 @@ protection.compare = (password, hased_password) => {
 };
 
 protection.token_generator = async (payload) => {
-  return await jwt.sign(payload, process.env.SECRET, {
+  return jwt.sign(payload, process.env.SECRET, {
     expiresIn: "2 days",
   });
 };

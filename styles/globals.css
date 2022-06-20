@@ -77,7 +77,7 @@ body {
   color: white;
 }
 
-#signup-form {
+.box {
   display: flex;
   height: "fit-content";
   /* justify-content: space-between; */
@@ -92,7 +92,7 @@ body {
   margin-top: 200px;
 }
 
-.input-box {
+.text-input {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -100,9 +100,10 @@ body {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+  cursor: text;
 }
 
-.submit-button {
+.submit {
   width: 100%;
   background-color: #4caf50;
   color: white;
@@ -111,4 +112,11 @@ body {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.div-center {
+  display: flex;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 }
