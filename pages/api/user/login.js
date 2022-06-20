@@ -17,7 +17,7 @@ export default async function handler(req, res) {
       }
     );
   });
-  console.log(users);
+  // console.log(users);
   if (users.length == 0) res.json({ message: "invalid email or password" });
   else {
     const user = users[0];
@@ -26,10 +26,10 @@ export default async function handler(req, res) {
 
     const valid = protection.compare(password, hashed_password);
     if (valid) {
-      const payload = { user: email, role: "General User" };
+      const payload = { userId: user.id, role: "General User" };
       //   const token = "hello";
       const token = await protection.token_generator(payload);
-      //   console.log(token);
+      console.log(token);
       res.json({ token });
     } else {
       res.json({ message: "Unauthenticated" });

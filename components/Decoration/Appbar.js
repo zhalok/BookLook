@@ -11,17 +11,68 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Link from "next/link";
+import jwt from "jsonwebtoken";
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import { Co2Sharp } from "@mui/icons-material";
 
 const pages = [
   { name: "Books", link: "/" },
   { name: "Contribute", link: "/upload" },
 ];
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
-
 const Appbar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const router = useRouter();
+  const [loggedInUser, setLoggedInUser] = useState(null);
+
+  const loggedin_settings = (
+    <div>
+      <div style={{ marginRight: "10px" }}>
+        <Link href={`/profile/${loggedInUser}`}>
+          <a>
+            <Typography textAlign="center">Profile</Typography>
+          </a>
+        </Link>
+      </div>
+      <div>
+        <div
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            localStorage.removeItem("userToken");
+            window.location.reload();
+            // router.push("/");
+          }}
+        >
+          <Typography textAlign="center">Logout</Typography>
+        </div>
+      </div>
+    </div>
+  );
+  const loggedout_settings = [
+    { label: "login", link: "/login" },
+    { label: "signup", link: "/signup" },
+  ].map((e) => (
+    <div style={{ marginRight: "10px" }}>
+      <Link href={e.link}>
+        <a>{e.label}</a>
+      </Link>
+    </div>
+  ));
+
+  useEffect(() => {
+    const token = localStorage.getItem("userToken");
+    console.log(token);
+    console.log(loggedInUser);
+    // console.log(token.split("."));
+    if (!token) return;
+    // console.log(process.env.SECRET_KEY);
+    const dec = jwt.decode(token);
+    // console.log(dec);
+
+    setLoggedInUser(dec.userId);
+  }, []);
+
+  const settings = loggedInUser ? loggedin_settings : loggedout_settings;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -77,35 +128,7 @@ const Appbar = () => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          {loggedInUser ? loggedin_settings : loggedout_settings}
         </Toolbar>
       </Container>
     </AppBar>
