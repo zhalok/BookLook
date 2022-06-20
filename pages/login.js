@@ -27,12 +27,19 @@ export default function SignUp() {
     })
       .then((res) => res.json())
       .then((data) => {
+        setOnLoader(false);
         console.log(data);
+        if (data.message && data.message == "Unauthenticated") {
+          alert(data.message);
+
+          return;
+        }
+
         localStorage.setItem("userToken", data.token);
         setOnLoader(false);
         router.push("/");
       })
-      .catch((e) => console.log(e));
+      .catch((e) => alert(e));
   };
 
   useEffect(() => {
@@ -42,7 +49,7 @@ export default function SignUp() {
 
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <Loading show={onLoader} />
       {/* <SignupAlertModal show={showModal} setShow={setShowModal} /> */}
       <div className="box">
