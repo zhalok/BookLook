@@ -49,7 +49,7 @@ export default function SignUp() {
 
   return (
     <div>
-      {/* <Navbar /> */}
+      <Navbar />
       <Loading show={onLoader} />
       {/* <SignupAlertModal show={showModal} setShow={setShowModal} /> */}
       <div className="box">

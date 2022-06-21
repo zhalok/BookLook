@@ -16,6 +16,8 @@ import EditionField from "../components/TextFields/EditionField";
 import AvailibilityField from "../components/SelectFields/AvailibilityField";
 import { Button } from "@mui/material";
 import CourseField from "../components/SelectFields/CourseField";
+import { useRouter } from "next/router";
+import jwt from "jsonwebtoken";
 
 export default function UploadBook() {
   const [name, setName] = useState("");
@@ -33,9 +35,18 @@ export default function UploadBook() {
   const [showCatagories, setShowCatagories] = useState(false);
   const [course, setCourse] = useState("");
   const [courseList, setCourseList] = useState([]);
+  const router = useRouter();
+
   useEffect(() => {
-    document.body.style.backgroundColor = "#eeeeff";
-    setUploader("zhalok");
+    // setUploader("zhalok");
+    const userToken = localStorage.getItem("userToken");
+    if (!userToken) {
+      router.push("/login");
+      return;
+    }
+    const decoded = jwt.decode(userToken);
+    console.log(decoded);
+    setUploader(decoded.userId);
     fetch("http://localhost:3000/api/courses/get-all?name=")
       .then((res) => res.json())
       .then((data) => {

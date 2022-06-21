@@ -16,6 +16,8 @@ export default async function handler(req, res) {
     upload_time,
   } = req.body;
 
+  console.log(req.body);
+
   const values = [
     [
       [
@@ -32,6 +34,7 @@ export default async function handler(req, res) {
   ];
 
   try {
+    // mysqlClient.connect();
     const promise1 = new Promise((resolve, reject) => {
       mysqlClient.query(queryString, values, (err, rows, fields) => {
         if (err) {
@@ -55,8 +58,10 @@ export default async function handler(req, res) {
 
     const bookId = response1[0].id;
 
-    const book_catagory_rows = [];
+    console.log(bookId);
 
+    const book_catagory_rows = [];
+    console.log(catagories);
     for (let i = 0; i < catagories.length; i++) {
       book_catagory_rows.push([bookId, catagories[i]]);
     }
@@ -90,7 +95,11 @@ export default async function handler(req, res) {
     });
 
     res.json(response1);
+    // mysqlClient.end();
   } catch (e) {
+    // mysqlClient.end();
+    // res.json("hello");
+    console.log(e);
     res.json(e);
   }
 }

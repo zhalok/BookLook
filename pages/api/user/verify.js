@@ -3,7 +3,7 @@ export default async function handler(req, res) {
   const { otp } = req.query;
 
   try {
-    mysqlClient.connect();
+    // mysqlClient.connect();
     let data = await new Promise((resolve, reject) => {
       mysqlClient.query(`select * from otps where otp=${otp}`, (err, rows) => {
         if (err) {
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
         }
       );
     });
-    mysqlClient.end();
+    // mysqlClient.end();
     res.redirect("/login");
   } catch (e) {
     mysqlClient.end();
