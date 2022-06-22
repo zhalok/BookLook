@@ -5,3 +5,5 @@ const DateGenerator = () => {
 
 // console.log(new Date().getTime());
 module.exports = DateGenerator;
+
+console.log(DateGenerator());

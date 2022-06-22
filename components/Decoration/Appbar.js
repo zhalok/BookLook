@@ -24,6 +24,10 @@ const pages = [
 const Appbar = () => {
   const router = useRouter();
   const [loggedInUser, setLoggedInUser] = useState(null);
+  // const [anchorElNav, setAnchorElNav] =
+  //   (useState < null) | (HTMLElement > null);
+  // const [anchorElUser, setAnchorElUser] =
+  //   (useState < null) | (HTMLElement > null);
 
   const loggedin_settings = (
     <div>
@@ -118,7 +122,7 @@ const Appbar = () => {
                 <a>
                   <Button
                     key={index}
-                    onClick={handleCloseNavMenu}
+                    // onClick={handleCloseNavMenu}
                     sx={{ my: 2, color: "white", display: "block" }}
                   >
                     {page.name}

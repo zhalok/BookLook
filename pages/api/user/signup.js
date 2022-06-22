@@ -10,6 +10,7 @@ export default async function handler(req, res) {
   }
   const { name, email, password } = req.body;
   try {
+    // mysqlClient.connect();
     await new Promise((resolve, reject) => {
       mysqlClient.query(
         "insert into users (name,email,hashed_password,verified) values (?)",
@@ -49,6 +50,7 @@ export default async function handler(req, res) {
     const message = `<a href="http://localhost:3000/api/user/verify?otp=${otp}">Verify email<a>`;
     await send_email(email, message);
     res.json(data);
+    // mysqlClient.end();
   } catch (e) {
     res.json(e);
   }
