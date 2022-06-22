@@ -34,7 +34,9 @@ export default async function handler(req, res) {
   ];
 
   try {
-    // mysqlClient.connect();
+
+//     mysqlClient.connect();
+
     const promise1 = new Promise((resolve, reject) => {
       mysqlClient.query(queryString, values, (err, rows, fields) => {
         if (err) {
@@ -93,6 +95,8 @@ export default async function handler(req, res) {
         }
       );
     });
+
+//     mysqlClient.end();
 
     res.json(response1);
     // mysqlClient.end();
