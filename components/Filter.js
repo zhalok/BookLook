@@ -98,7 +98,8 @@ export default function Filter({ setBooks }) {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setBooks(data);
+        const _data = [...data];
+        setBooks(new Array(...data));
       })
       .catch((e) => console.log(e));
   };
