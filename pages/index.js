@@ -12,7 +12,7 @@ export default function Home({ Message, Books }) {
   const [books, setBooks] = useState([]);
   useEffect(() => {
     setBooks(Books);
-  });
+  }, []);
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -25,6 +25,8 @@ export default function Home({ Message, Books }) {
   // useEffect(() => {
   //   document.body.style.backgroundColor = "#eeeeff";
   // }, []);
+
+  console.log(books);
   return (
     <div className={styles.container} style={{}}>
       <Head>
@@ -42,6 +44,7 @@ export default function Home({ Message, Books }) {
   );
 }
 export async function getServerSideProps({ req, res }) {
+  console.log("hello");
   const mysqlClient = require("../utils/database_connection");
 
   const promise = new Promise((resolve, reject) => {

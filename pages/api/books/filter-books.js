@@ -6,6 +6,7 @@ export default async function handler(req, res) {
     return;
   }
   const { authors, publications, catagories, courses } = req.body;
+  console.log(authors, publications, catagories, courses);
   const queryString1 = "select id from books where author in (?)";
   const queryString2 = "select id from books where publication in (?)";
   const queryString3 =
@@ -15,11 +16,10 @@ export default async function handler(req, res) {
   const queryString5 = "select * from books where id in (?)";
 
   try {
-    // mysqlClient.connect();
     let filter_counter = 0;
 
     const responses = [];
-    if (authors) {
+    if (authors && authors.length) {
       filter_counter++;
       const promise = new Promise((resolve, reject) => {
         mysqlClient.query(queryString1, [authors], (err, rows, fields) => {
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
       }
     }
 
-    if (publications) {
+    if (publications && publications.length) {
       filter_counter++;
       const promise = new Promise((resolve, reject) => {
         mysqlClient.query(queryString2, [publications], (err, rows, fields) => {
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
       }
     }
 
-    if (catagories) {
+    if (catagories && catagories.length) {
       filter_counter++;
       const promise = new Promise((resolve, reject) => {
         mysqlClient.query(queryString3, [catagories], (err, rows, fields) => {
@@ -66,7 +66,7 @@ export default async function handler(req, res) {
         responses.push(temp.bookId);
       }
     }
-    if (courses) {
+    if (courses && courses.length) {
       filter_counter++;
       const promise = new Promise((resolve, reject) => {
         mysqlClient.query(queryString4, [courses], (err, rows, fields) => {
@@ -95,28 +95,32 @@ export default async function handler(req, res) {
         if (cnt == filter_counter) final_responses.push(responses[i]);
         cnt = 0;
       }
-
-    const promise = new Promise((resolve, reject) => {
-      mysqlClient.query(
-        queryString5,
-        [final_responses],
-        (err, rows, fields) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(rows);
+    if (final_responses.length) {
+      const promise = new Promise((resolve, reject) => {
+        mysqlClient.query(
+          queryString5,
+          [final_responses],
+          (err, rows, fields) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(rows);
+            }
           }
-        }
-      );
-    });
+        );
+      });
 
-    const results = await promise;
+      const results = await promise;
 
-    for (let i = 0; i < results.length; i++) {
-      results[i] = JSON.parse(JSON.stringify(results[i]));
+      for (let i = 0; i < results.length; i++) {
+        results[i] = JSON.parse(JSON.stringify(results[i]));
+      }
+
+      console.log(results);
+      res.json(results);
+    } else {
+      res.json([]);
     }
-
-    res.json(results);
     // mysqlClient.end();
   } catch (e) {}
 }
