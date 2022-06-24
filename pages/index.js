@@ -44,7 +44,7 @@ export default function Home({ Message, Books }) {
   );
 }
 export async function getServerSideProps({ req, res }) {
-  console.log("hello");
+  // console.log("hello");
   const mysqlClient = require("../utils/database_connection");
 
   const promise = new Promise((resolve, reject) => {

@@ -19,3 +19,5 @@ protection.token_generator = async (payload) => {
 };
 
 module.exports = protection;
+
+console.log(bcrypt.compare("03041959"));

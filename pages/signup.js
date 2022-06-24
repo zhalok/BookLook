@@ -33,7 +33,7 @@ export default function SignUp() {
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({ name, email, password, confirmedPassword }),
+      body: JSON.stringify({ name, email, password }),
     })
       .then((res) => {
         if (res.status == 500) {
@@ -42,12 +42,18 @@ export default function SignUp() {
         return res.json();
       })
       .then((data) => {
+        // console.log(data);
+        if (data.message && data.message == "Email already exists") {
+          setOnLoader(false);
+          alert(data.message);
+          return;
+        }
         setOnLoader(false);
         setShowModal(true);
       })
       .catch((e) => {
         setOnLoader(false);
-        // console.log(e);
+        console.log(e);
         alert(e);
       });
   };

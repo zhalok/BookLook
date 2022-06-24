@@ -10,6 +10,19 @@ export default async function handler(req, res) {
   }
   const { name, email, password } = req.body;
   try {
+    let users = await new Promise((resolve, reject) => {
+      mysqlClient.query(
+        `select email from users where email="${email}"`,
+        (err, rows) => {
+          if (err) reject(err);
+          else resolve(rows);
+        }
+      );
+    });
+    if (users.length) {
+      res.json({ message: "Email already exists" });
+      return;
+    }
     // mysqlClient.connect();
     await new Promise((resolve, reject) => {
       mysqlClient.query(

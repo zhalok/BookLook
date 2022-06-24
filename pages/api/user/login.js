@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       );
     });
     // console.log(users);
-    if (users.length == 0) res.json({ message: "invalid email or password" });
+    if (users.length == 0) res.json({ message: "Unauthenticated" });
     else {
       const user = users[0];
       console.log(user);
@@ -37,5 +37,8 @@ export default async function handler(req, res) {
       }
     }
     // mysqlClient.end();
-  } catch (e) {}
+  } catch (e) {
+    // console.log("hello");
+    console.log(e);
+  }
 }
