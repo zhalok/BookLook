@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     // mysqlClient.connect();
     const users = await new Promise((resolve, reject) => {
       mysqlClient.query(
-        "select * from users where email = ? & verified=true ",
+        "select * from users where email = ? & verified=true",
         [email],
         (err, rows) => {
           if (err) reject(err);

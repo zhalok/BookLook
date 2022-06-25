@@ -46,9 +46,8 @@ export default function Home({ Message, Books }) {
 export async function getServerSideProps({ req, res }) {
   // console.log("hello");
   const mysqlClient = require("../utils/database_connection");
-
+  mysqlClient.connect();
   const promise = new Promise((resolve, reject) => {
-    mysqlClient.connect();
     mysqlClient.query("select * from books", (error, result, fields) => {
       if (error) {
         reject(error);
@@ -56,7 +55,6 @@ export async function getServerSideProps({ req, res }) {
         resolve(result);
       }
     });
-    mysqlClient.end();
   });
 
   const result = await promise;
