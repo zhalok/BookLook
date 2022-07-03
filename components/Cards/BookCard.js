@@ -9,6 +9,7 @@ import { styled } from "@mui/material/styles";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function BookCard({ info }) {
   const Demo = styled("div")(({ theme }) => ({
@@ -34,13 +35,14 @@ export default function BookCard({ info }) {
             <ListItem key={1}>Author: {info.author}</ListItem>
             <ListItem key={2}>Publisher: {info.publication}</ListItem>
             <ListItem key={3}>Edition: {info.edition}</ListItem>
-            <ListItem key={4}>Reviews:{info.reviews}</ListItem>
+
+            {/* <ListItem key={4}>Reviews:{info.reviews}</ListItem>
             <ListItem key={5}>
               {info.availibility == true ? "Available" : "Not available"}
             </ListItem>
             <ListItem key={6}>
               Upload Time: {info.upload_time.split("T")[0]}
-            </ListItem>
+            </ListItem> */}
           </List>
         </Demo>
       </CardContent>
@@ -60,7 +62,18 @@ export default function BookCard({ info }) {
               router.push(`/read/${info.id}`);
             }}
           >
-            Visit
+            Read
+          </Button>
+        </div>
+        <div style={{ marginTop: "10px" }}>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={() => {
+              router.push(`/details/${info.id}`);
+            }}
+          >
+            Details
           </Button>
         </div>
       </div>
