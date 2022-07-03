@@ -120,3 +120,64 @@ body {
   margin-left: auto;
   margin-right: auto;
 }
+
+.book-card-list {
+  width: 1000px;
+  border: 1px solid black;
+  margin-top: 100px;
+  height: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.comment-page-layout {
+  border: 1px solid black;
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 1500px;
+  display: flex;
+  flex-direction: row;
+  /* column-gap: 10px; */
+  padding: 10px;
+}
+
+.details-card {
+  display: flex;
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+.comments {
+  display: flex;
+  float: right;
+  width: 50%;
+  padding: 10px;
+}
+
+.tooltip {
+  position: relative;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 50px;
+  background-color: rgb(95, 12, 12);
+  color: rgb(230, 123, 123);
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+/* .tip-text:hover {
+  visibility: visible;
+} */

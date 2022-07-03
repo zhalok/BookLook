@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import AppBar from "../components/Decoration/Appbar";
 import BookList from "../components/Lists/BookList";
 import Filter from "../components/Filter";
+import BookCard from "../components/Cards/BookCard";
 
 export default function Home({ Message, Books }) {
   // console.log(Books);
@@ -39,6 +40,8 @@ export default function Home({ Message, Books }) {
       <div style={{ marginTop: "30px" }}>
         <Filter setBooks={setBooks} />
         <BookList booklist={books} />
+
+        {/* <BookCard /> */}
       </div>
     </div>
   );
