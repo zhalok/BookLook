@@ -45,7 +45,7 @@ export default function UploadBook() {
       return;
     }
     const decoded = jwt.decode(userToken);
-    console.log(decoded);
+
     setUploader(decoded.userId);
     fetch("http://localhost:3000/api/courses/get-all?name=")
       .then((res) => res.json())

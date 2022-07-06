@@ -1,4 +1,14 @@
+import { useEffect, useState } from "react";
+
 export default function CommentBlock({ Comment, Commenter }) {
+  const [commenterName, setCommenterName] = useState("");
+  useEffect(() => {
+    fetch(`http://localhost:3000/api/user/read/${Commenter}`)
+      .then((res) => res.json())
+      .then((data) => setCommenterName(data[0].name))
+      .catch((e) => console.log(e));
+  }, [Commenter]);
+  console.log(commenterName);
   return (
     <div
       style={{
@@ -9,7 +19,7 @@ export default function CommentBlock({ Comment, Commenter }) {
       }}
     >
       <h3>{Comment}</h3>
-      <p>- {Commenter}</p>
+      <p>- {commenterName}</p>
     </div>
   );
 }

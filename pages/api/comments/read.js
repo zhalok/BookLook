@@ -7,11 +7,17 @@ export default async function handler(req, res) {
   }
 
   try {
+    let { bookId } = req.query;
+
     const data = await new Promise((resolve, reject) => {
-      mysqlClient.query("select * from comments", (err, data) => {
-        if (err) reject(err);
-        else resolve(data);
-      });
+      mysqlClient.query(
+        `select * from comments where bookId = ?`,
+        [bookId],
+        (err, data) => {
+          if (err) reject(err);
+          else resolve(data);
+        }
+      );
     });
 
     res.json(data);
