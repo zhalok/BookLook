@@ -5,11 +5,14 @@ export default async function handler(req, res) {
   try {
     // mysqlClient.connect();
     let data = await new Promise((resolve, reject) => {
-      mysqlClient.query(`select * from otps where otp=${otp}`, (err, rows) => {
-        if (err) {
-          reject(err);
-        } else resolve(rows);
-      });
+      mysqlClient.query(
+        `select * from tokens where token=${otp}`,
+        (err, rows) => {
+          if (err) {
+            reject(err);
+          } else resolve(rows);
+        }
+      );
     });
     if (data.length == 0) {
       res.json({ message: "Invalid OTP" });
