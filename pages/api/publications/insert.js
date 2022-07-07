@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   }
   const { name } = req.body;
   try {
-    mysqlClient.connect();
+    // mysqlClient.connect();
     const promise = new Promise((resolve, reject) => {
       mysqlClient.query(
         `insert into publications (name) values ('${name}')`,
@@ -30,7 +30,7 @@ export default async function handler(req, res) {
     });
 
     const data = await promise;
-    mysqlClient.end();
+    // mysqlClient.end();
     res.json(data);
   } catch (e) {}
 }

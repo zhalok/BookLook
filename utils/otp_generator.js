@@ -12,4 +12,6 @@ otp_generator.generate = (digits) => {
   return { otp, expiration_time };
 };
 
+// console.log(otp_generator.generate(10));
+
 module.exports = otp_generator;

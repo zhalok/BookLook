@@ -51,7 +51,7 @@ export default async function handler(req, res) {
 
     await new Promise((resolve, reject) => {
       mysqlClient.query(
-        "insert into otps (userId,otp,expiration_time) values (?)",
+        "insert into tokens (userId,token,expiration_time) values (?)",
         [[userId, otp, expiration_time]],
         (err, rows) => {
           if (err) reject(err);
@@ -61,7 +61,8 @@ export default async function handler(req, res) {
     });
 
     const message = `<a href="http://localhost:3000/api/user/verify?otp=${otp}">Verify email<a>`;
-    await send_email(email, message);
+    const subject = "Email Verification";
+    await send_email(email, subject, message);
     res.json(data);
     // mysqlClient.end();
   } catch (e) {

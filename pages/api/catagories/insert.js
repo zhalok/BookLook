@@ -5,6 +5,7 @@ export default async function handler(req, res) {
     return;
   }
   const { name } = req.query;
+  console.log(name);
   try {
     const promise = new Promise((resolve, reject) => {
       mysqlClient.query(
@@ -29,7 +30,7 @@ export default async function handler(req, res) {
     });
 
     const data = await promise;
-    mysqlClient.end();
+    // mysqlClient.end();
     res.json(data);
   } catch (e) {}
 }

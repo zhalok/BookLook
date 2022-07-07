@@ -1,2 +1,1 @@
-const date = new Date();
-console.log(date.getFullYear());
+const sendEmail = require("./send_email");

@@ -32,7 +32,7 @@ export default async function handler(req, res) {
     });
 
     const response = await promise;
-    mysqlClient.end();
+    // mysqlClient.end();
     res.json(response);
   } catch (e) {}
 }
