@@ -23,7 +23,7 @@ import BookIcon from "@mui/icons-material/Book";
 import Tooltip from "@mui/material/Tooltip";
 import { useRouter } from "next/router";
 
-export default function BookDetailsPage() {
+export default function BookDetailsPage({ user }) {
   const [bookName, setBookName] = React.useState("");
   const [uploader, setUploader] = React.useState("Zhalok Rahman");
   const [author, setAuthor] = React.useState("");
@@ -47,10 +47,11 @@ export default function BookDetailsPage() {
     fetch(`http://localhost:3000/api/books/uploader/${bookId}`)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setUploader(data[0].name);
       })
       .catch((e) => console.log(e));
-  }, [bookId]);
+  }, [bookId, user]);
   return (
     <div>
       <Card sx={{ maxWidth: 345, marginLeft: "auto", marginRight: "auto" }}>
