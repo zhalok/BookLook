@@ -25,22 +25,28 @@ import { useRouter } from "next/router";
 
 export default function BookDetailsPage({ user }) {
   const [bookName, setBookName] = React.useState("");
-  const [uploader, setUploader] = React.useState("Zhalok Rahman");
   const [author, setAuthor] = React.useState("");
-  const [publication, setPublication] = React.useState("Pearson");
+  const [publication, setPublication] = React.useState("");
+  const [recommendations, setRecommendations] = React.useState(0);
   const [uploaderId, setUploaderId] = React.useState("");
 
+  const [uploader, setUploader] = React.useState("");
   const router = useRouter();
   const { bookId } = router.query;
   React.useEffect(() => {
-    console.log(bookId);
+    if (!bookId) {
+      return <div>Loading</div>;
+    }
     fetch(`http://localhost:3000/api/books/${bookId}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+
         setBookName(data[0].name);
         setAuthor(data[0].author);
         setUploaderId(data[0].uploader);
+        setPublication(data[0].publication);
+        setRecommendations(data[0].recommendations);
         setPublication(data[0].publication);
       })
       .catch((e) => console.log(e));
@@ -102,13 +108,31 @@ export default function BookDetailsPage({ user }) {
           </List>
         </CardContent>
         <CardActions disableSpacing>
-          <div>
-            <Tooltip placement="top" title="Recommend">
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-              </IconButton>
-            </Tooltip>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <div
+              onClick={() => {
+                setRecommendations((prevState) => {
+                  prevState = prevState + 1;
+
+                  return prevState;
+                });
+                // fetch(
+                //   `http://localhost:3000/api/books/recommend?bookId=1&userId=${user}`
+                // )
+                //   .then()
+                //   .then()
+                //   .catch();
+              }}
+            >
+              <Tooltip placement="top" title="Recommend">
+                <IconButton aria-label="add to favorites">
+                  <FavoriteIcon />
+                </IconButton>
+              </Tooltip>
+            </div>
+            <div>{recommendations}</div>
           </div>
+
           <div>
             <IconButton aria-label="share">
               <ShareIcon />
