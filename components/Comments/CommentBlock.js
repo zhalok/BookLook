@@ -8,7 +8,7 @@ export default function CommentBlock({ Comment, Commenter }) {
       .then((data) => setCommenterName(data[0].name))
       .catch((e) => console.log(e));
   }, [Commenter]);
-  console.log(commenterName);
+
   return (
     <div
       style={{

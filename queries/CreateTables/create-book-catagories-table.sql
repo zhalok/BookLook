@@ -1,4 +1,4 @@
-use bqlz2crijfharfe0jjuo;
+-- use bqlz2crijfharfe0jjuo;
 
 create table books_catagories(
     bookId int not null,

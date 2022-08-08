@@ -1,4 +1,4 @@
-use bqlz2crijfharfe0jjuo;
+-- use bqlz2crijfharfe0jjuo;
 
 create table users(
 

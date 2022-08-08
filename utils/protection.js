@@ -8,8 +8,8 @@ protection.hash = (plainPassword) => {
   return hashed_password;
 };
 
-protection.compare = (password, hased_password) => {
-  return bcrypt.compareSync(password, hased_password);
+protection.compare = (password, hashed_password) => {
+  return bcrypt.compareSync(password, hashed_password);
 };
 
 protection.token_generator = async (payload) => {
@@ -19,5 +19,3 @@ protection.token_generator = async (payload) => {
 };
 
 module.exports = protection;
-
-console.log(bcrypt.compare("03041959"));

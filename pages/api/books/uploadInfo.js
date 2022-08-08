@@ -2,7 +2,7 @@ const mysqlClient = require("../../../utils/database_connection");
 
 export default async function handler(req, res) {
   const queryString =
-    "insert into books (name,publication,author,edition,availibility,reviews,uploader,upload_time) values ?";
+    "insert into books (name,publication,author,edition,availibility,recommendations,uploader,upload_time) values ?";
   const {
     name,
     publication,
@@ -34,8 +34,7 @@ export default async function handler(req, res) {
   ];
 
   try {
-
-//     mysqlClient.connect();
+    //     mysqlClient.connect();
 
     const promise1 = new Promise((resolve, reject) => {
       mysqlClient.query(queryString, values, (err, rows, fields) => {
@@ -96,7 +95,7 @@ export default async function handler(req, res) {
       );
     });
 
-//     mysqlClient.end();
+    //     mysqlClient.end();
 
     res.json(response1);
     // mysqlClient.end();
