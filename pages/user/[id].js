@@ -17,6 +17,7 @@ export default function UserProfile() {
   const [updatedEmail, setUpdatedEmail] = useState("");
   const [showProgress, setShowProgress] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const router = useRouter();
   const { id } = router.query;
@@ -58,6 +59,7 @@ export default function UserProfile() {
       .then((data) => {
         console.log(data);
         setShowProgress(false);
+        setSuccessMessage("Updated Successfully");
         setSuccess(true);
         setTimeout(1000);
         window.location.reload();
@@ -68,11 +70,29 @@ export default function UserProfile() {
       });
   };
 
+  const deleteUser = () => {
+    setShowProgress(true);
+    fetch(`http://localhost:3000/api/user/delete/${id}`, { method: "DELETE" })
+      .then((res) => res.json())
+      .then((data) => {
+        setShowProgress(false);
+        setSuccessMessage("User Deleted Successfully");
+        setSuccess(true);
+        setTimeout(1000);
+        localStorage.removeItem("userToken");
+        router.push("/");
+      });
+  };
+
   return (
     <div>
       <Appbar />
       <Loading show={showProgress} />
-      <SuccessAlert open={success} setOpen={setSuccess} />
+      <SuccessAlert
+        open={success}
+        setOpen={setSuccess}
+        message={successMessage}
+      />
       <UserUpdateForm
         show={showUserUpdateForm}
         setShow={setShowUserUpdateForm}
