@@ -5,6 +5,7 @@ import Appbar from "../../components/Decoration/Appbar";
 import UserBookList from "../../components/Lists/UserBookList";
 import UserUpdateForm from "../../components/Modals/UserUpdateForm";
 import Loading from "../../components/Modals/Loading";
+import SuccessAlert from "../../components/Alerts/SuccessAlert";
 
 export default function UserProfile() {
   const [bookList, setBookList] = useState([]);
@@ -43,14 +44,35 @@ export default function UserProfile() {
   }, [id]);
 
   const updateUser = () => {
-    setShowProgress(true);
     setShowUserUpdateForm(false);
+    setShowProgress(true);
+    fetch(`http://localhost:3000/api/user/update/${id}`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ name: updatedName, email: updatedEmail }),
+    })
+      .then((res) => {
+        if (res.status != 200) throw new Error("Something wrong");
+        else return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setShowProgress(false);
+        setSuccess(true);
+        setTimeout(1000);
+        window.location.reload();
+      })
+      .catch((e) => {
+        setShowProgress(false);
+        alert(e);
+      });
   };
 
   return (
     <div>
       <Appbar />
       <Loading show={showProgress} />
+      <SuccessAlert open={success} setOpen={setSuccess} />
       <UserUpdateForm
         show={showUserUpdateForm}
         setShow={setShowUserUpdateForm}

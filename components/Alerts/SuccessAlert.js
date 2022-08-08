@@ -9,7 +9,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function SimpleSnackbar({ open, setOpen }) {
+export default function SuccessAlert({ open, setOpen }) {
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
