@@ -1,4 +1,4 @@
-const mysqlClient = require("../../../../utils/database_connection");
+const mysqlClient = require("../../../utils/database_connection");
 export default async function handler(req, res) {
   const { id } = req.query;
   console.log(id);

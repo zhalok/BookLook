@@ -32,7 +32,7 @@ const Appbar = () => {
   const loggedin_settings = (
     <div>
       <div style={{ marginRight: "10px" }}>
-        <Link href={`/profile/${loggedInUser}`}>
+        <Link href={`/user/${loggedInUser}`}>
           <a>
             <Typography textAlign="center">Profile</Typography>
           </a>

@@ -9,7 +9,6 @@ import { styled } from "@mui/material/styles";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import { useRouter } from "next/router";
-import Link from "next/link";
 
 export default function UserBookCard({ info }) {
   const Demo = styled("div")(({ theme }) => ({
