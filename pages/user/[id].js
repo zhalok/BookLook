@@ -3,12 +3,19 @@ import { useRouter } from "next/router";
 import UserProfileCard from "../../components/Cards/UserInfoCard";
 import Appbar from "../../components/Decoration/Appbar";
 import UserBookList from "../../components/Lists/UserBookList";
+import UserUpdateForm from "../../components/Modals/UserUpdateForm";
+import Loading from "../../components/Modals/Loading";
 
 export default function UserProfile() {
   const [bookList, setBookList] = useState([]);
   const [recommendationList, setReccommendationList] = useState([]);
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [showUserUpdateForm, setShowUserUpdateForm] = useState(false);
+  const [updatedName, setUpdatedName] = useState("");
+  const [updatedEmail, setUpdatedEmail] = useState("");
+  const [showProgress, setShowProgress] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const router = useRouter();
   const { id } = router.query;
@@ -24,18 +31,35 @@ export default function UserProfile() {
       .then((res) => res.json())
       .then((data) => setReccommendationList(data))
       .catch((e) => alert(e));
-
-    fetch(`http://localhost:3000/api/user/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setUserName(data[0].name);
-        setUserEmail(data[0].email);
-      });
+    if (id) {
+      fetch(`http://localhost:3000/api/user/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setUserName(data[0].name);
+          setUserEmail(data[0].email);
+        });
+    }
   }, [id]);
+
+  const updateUser = () => {
+    setShowProgress(true);
+    setShowUserUpdateForm(false);
+  };
 
   return (
     <div>
       <Appbar />
+      <Loading show={showProgress} />
+      <UserUpdateForm
+        show={showUserUpdateForm}
+        setShow={setShowUserUpdateForm}
+        updatedEmail={updatedEmail}
+        updatedName={updatedName}
+        setUpdatedName={setUpdatedName}
+        setUpdatedEmail={setUpdatedEmail}
+        updateUser={updateUser}
+      />
       <div className="user-profile-page">
         <div>
           <UserProfileCard
@@ -43,6 +67,7 @@ export default function UserProfile() {
             Email={userEmail}
             Recommendations={recommendationList.length}
             Contributions={bookList.length}
+            updateFormController={setShowUserUpdateForm}
           />
         </div>
         <div
@@ -61,7 +86,6 @@ export default function UserProfile() {
           </div>
 
           <div>
-            {" "}
             <h1> Contributitons </h1>{" "}
             <div style={{ overflowX: "auto" }}>
               <UserBookList booklist={bookList} />

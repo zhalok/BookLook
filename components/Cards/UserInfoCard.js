@@ -13,6 +13,7 @@ import ListItemText from "@mui/material/ListItemText";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import AddLinkOutlinedIcon from "@mui/icons-material/AddLinkOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import DeleteButton from "../Buttons/OnHoverContainedOutlinedButton";
 
 export default function UserProfileCard({
   Contributions,
@@ -20,11 +21,12 @@ export default function UserProfileCard({
   Name,
   Email,
   IsCurrentUser,
+  updateFormController,
 }) {
   React.useEffect(() => {}, [IsCurrentUser]);
 
   return (
-    <Card className="user-card">
+    <Card className="user-card" elevation={5}>
       <CardMedia
         component="img"
         height="200"
@@ -83,8 +85,38 @@ export default function UserProfileCard({
         </List>
       </CardContent>
       <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "10px",
+            width: "100%",
+          }}
+        >
+          <div>
+            <Button
+              size="small"
+              variant="contained"
+              fullWidth
+              onClick={() => {
+                updateFormController(true);
+              }}
+            >
+              Update Information
+            </Button>
+          </div>
+          <div style={{ marginTop: "10px" }}>
+            {/* <Button size="small" variant="outlined" color="error" fullWidth>
+              Delete Account
+            </Button> */}
+            <DeleteButton
+              ButtonText="Delete Profile"
+              DefaultVariant="outlined"
+              HoverVariant="contained"
+              Color="error"
+            />
+          </div>
+        </div>
       </CardActions>
     </Card>
   );
