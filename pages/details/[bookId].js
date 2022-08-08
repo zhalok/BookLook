@@ -8,6 +8,7 @@ import Appbar from "../../components/Decoration/Appbar";
 import CommentSection from "../../components/Comments/CommentSection";
 import { useRouter } from "next/router";
 import jwt from "jsonwebtoken";
+
 export default function BookDetails() {
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",

@@ -80,7 +80,6 @@ body {
 .box {
   display: flex;
   height: "fit-content";
-  /* justify-content: space-between; */
   justify-content: center;
   margin-left: auto;
   margin-right: auto;
@@ -176,6 +175,20 @@ body {
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
+}
+
+.user-profile-page {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 100px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 100px;
+  border: 1px solid black;
+}
+
+.user-card {
+  width: 300px;
 }
 
 /* .tip-text:hover {

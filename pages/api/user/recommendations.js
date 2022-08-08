@@ -12,6 +12,7 @@ export default async function handler(req, res) {
       });
 
       res.status(200).json(data);
+      return;
     }
 
     const data = await new Promise((resolve, reject) => {
