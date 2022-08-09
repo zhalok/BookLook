@@ -43,7 +43,6 @@ export default function BookDetailsPage({ user }) {
         setAuthor(data[0].author);
         setUploaderId(data[0].uploader);
         setPublication(data[0].publication);
-        // setRecommendations(data[0].recommendations);
         setPublication(data[0].publication);
       })
       .catch((e) => console.log(e));
@@ -60,8 +59,10 @@ export default function BookDetailsPage({ user }) {
       .catch((e) => console.log(e));
 
     const userToken = localStorage.getItem("userToken");
-    const userInfo = jwt.decode(userToken);
-    setUserId(userInfo.userId);
+    if (userToken) {
+      const userInfo = jwt.decode(userToken);
+      setUserId(userInfo.userId);
+    }
   }, [bookId, user]);
 
   React.useEffect(() => {
@@ -83,7 +84,7 @@ export default function BookDetailsPage({ user }) {
         <CardHeader
           style={{ cursor: "pointer" }}
           onClick={() => {
-            router.push(`/users/${uploaderId}`);
+            router.push(`/user/${uploaderId}`);
           }}
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe"></Avatar>

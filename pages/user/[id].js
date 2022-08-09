@@ -5,7 +5,8 @@ import Appbar from "../../components/Decoration/Appbar";
 import UserBookList from "../../components/Lists/UserBookList";
 import UserUpdateForm from "../../components/Modals/UserUpdateForm";
 import Loading from "../../components/Modals/Loading";
-import SuccessAlert from "../../components/Alerts/SuccessAlert";
+import AlertMessage from "../../components/Alerts/AlertMessage";
+import jwt from "jsonwebtoken";
 
 export default function UserProfile() {
   const [bookList, setBookList] = useState([]);
@@ -16,8 +17,10 @@ export default function UserProfile() {
   const [updatedName, setUpdatedName] = useState("");
   const [updatedEmail, setUpdatedEmail] = useState("");
   const [showProgress, setShowProgress] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertSeverity, setAlertSeverity] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
 
   const router = useRouter();
   const { id } = router.query;
@@ -37,10 +40,23 @@ export default function UserProfile() {
       fetch(`http://localhost:3000/api/user/${id}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          if (data.length == 0) throw new Error("User Not Found");
           setUserName(data[0].name);
           setUserEmail(data[0].email);
+        })
+        .catch((e) => {
+          setAlertMessage("User Not found");
+          setAlertSeverity("error");
+          setShowAlert(true);
+          // setTimeout(1000);
+          // setShowAlert(false);
+          // router.push("/");
         });
+    }
+    const userToken = localStorage.getItem("userToken");
+    if (userToken) {
+      const userInfo = jwt.decode(userToken);
+      if (userInfo.id == id) setIsCurrentUser(true);
     }
   }, [id]);
 
@@ -59,8 +75,9 @@ export default function UserProfile() {
       .then((data) => {
         console.log(data);
         setShowProgress(false);
-        setSuccessMessage("Updated Successfully");
-        setSuccess(true);
+        setAlertMessage("Updated Successfully");
+        setAlertSeverity("success");
+        setShowAlert(true);
         setTimeout(1000);
         window.location.reload();
       })
@@ -76,8 +93,8 @@ export default function UserProfile() {
       .then((res) => res.json())
       .then((data) => {
         setShowProgress(false);
-        setSuccessMessage("User Deleted Successfully");
-        setSuccess(true);
+        setAlertMessage("User Deleted Successfully");
+        setAlert(true);
         setTimeout(1000);
         localStorage.removeItem("userToken");
         router.push("/");
@@ -88,11 +105,13 @@ export default function UserProfile() {
     <div>
       <Appbar />
       <Loading show={showProgress} />
-      <SuccessAlert
-        open={success}
-        setOpen={setSuccess}
-        message={successMessage}
+      <AlertMessage
+        open={showAlert}
+        setOpen={setShowAlert}
+        message={alertMessage}
+        severity={alertSeverity}
       />
+
       <UserUpdateForm
         show={showUserUpdateForm}
         setShow={setShowUserUpdateForm}
@@ -110,6 +129,7 @@ export default function UserProfile() {
             Recommendations={recommendationList.length}
             Contributions={bookList.length}
             updateFormController={setShowUserUpdateForm}
+            isCurrentUser={isCurrentUser}
           />
         </div>
         <div

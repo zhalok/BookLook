@@ -20,10 +20,50 @@ export default function UserProfileCard({
   Recommendations,
   Name,
   Email,
-  IsCurrentUser,
+  isCurrentUser,
   updateFormController,
 }) {
-  React.useEffect(() => {}, [IsCurrentUser]);
+  React.useEffect(() => {
+    if (isCurrentUser == true) {
+    }
+  }, [isCurrentUser]);
+
+  const userUpdateInfo = (
+    <div>
+      {" "}
+      <CardActions>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "10px",
+            width: "100%",
+          }}
+        >
+          <div>
+            <Button
+              size="small"
+              variant="contained"
+              fullWidth
+              onClick={() => {
+                updateFormController(true);
+              }}
+            >
+              Update Information
+            </Button>
+          </div>
+          <div style={{ marginTop: "10px" }}>
+            <DeleteButton
+              ButtonText="Delete Profile"
+              DefaultVariant="outlined"
+              HoverVariant="contained"
+              Color="error"
+            />
+          </div>
+        </div>
+      </CardActions>
+    </div>
+  );
 
   return (
     <Card className="user-card" elevation={5}>
@@ -38,17 +78,6 @@ export default function UserProfileCard({
           {Name}
         </Typography>
         <List>
-          {/* <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <AccountBoxIcon color="primary" />
-              </ListItemIcon>
-              <ListItemText
-                primary={name}
-                style={{ overflowWrap: "break-word" }}
-              />
-            </ListItemButton>
-          </ListItem> */}
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
@@ -83,41 +112,8 @@ export default function UserProfileCard({
             </ListItemButton>
           </ListItem>
         </List>
+        {isCurrentUser ? userUpdateInfo : ""}
       </CardContent>
-      <CardActions>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "10px",
-            width: "100%",
-          }}
-        >
-          <div>
-            <Button
-              size="small"
-              variant="contained"
-              fullWidth
-              onClick={() => {
-                updateFormController(true);
-              }}
-            >
-              Update Information
-            </Button>
-          </div>
-          <div style={{ marginTop: "10px" }}>
-            {/* <Button size="small" variant="outlined" color="error" fullWidth>
-              Delete Account
-            </Button> */}
-            <DeleteButton
-              ButtonText="Delete Profile"
-              DefaultVariant="outlined"
-              HoverVariant="contained"
-              Color="error"
-            />
-          </div>
-        </div>
-      </CardActions>
     </Card>
   );
 }
