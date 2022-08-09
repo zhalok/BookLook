@@ -26,21 +26,28 @@ export default function UserProfile() {
   const { id } = router.query;
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/books/get-by-uploader?uploader=${id}`)
-      .then((res) => res.json())
-      .then((data) => setBookList(data))
-      .catch((e) => alert(e));
-    fetch("");
-
-    fetch(`http://localhost:3000/api/books/get-by-recommendation?userId=${id}`)
-      .then((res) => res.json())
-      .then((data) => setReccommendationList(data))
-      .catch((e) => alert(e));
     if (id) {
+      fetch(`http://localhost:3000/api/books/get-by-uploader?uploader=${id}`)
+        .then((res) => res.json())
+        .then((data) => setBookList(data))
+        .catch((e) => alert(e));
+
+      fetch(
+        `http://localhost:3000/api/books/get-by-recommendation?userId=${id}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setReccommendationList(data);
+        })
+        .catch((e) => alert(e));
+
       fetch(`http://localhost:3000/api/user/${id}`)
         .then((res) => res.json())
         .then((data) => {
-          if (data.length == 0) throw new Error("User Not Found");
+          if (data.length == 0) {
+            throw new Error("User Not Found");
+            return;
+          }
           setUserName(data[0].name);
           setUserEmail(data[0].email);
         })
@@ -48,15 +55,18 @@ export default function UserProfile() {
           setAlertMessage("User Not found");
           setAlertSeverity("error");
           setShowAlert(true);
-          // setTimeout(1000);
-          // setShowAlert(false);
-          // router.push("/");
+          setTimeout(1000);
+          setShowAlert(false);
+          router.push("/");
         });
     }
     const userToken = localStorage.getItem("userToken");
     if (userToken) {
       const userInfo = jwt.decode(userToken);
-      if (userInfo.id == id) setIsCurrentUser(true);
+      console.log(userInfo);
+      console.log(id);
+      if (userInfo.userId != id) setIsCurrentUser(false);
+      else setIsCurrentUser(true);
     }
   }, [id]);
 

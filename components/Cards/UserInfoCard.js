@@ -23,10 +23,10 @@ export default function UserProfileCard({
   isCurrentUser,
   updateFormController,
 }) {
-  React.useEffect(() => {
-    if (isCurrentUser == true) {
-    }
-  }, [isCurrentUser]);
+  // React.useEffect(() => {
+  //   if (isCurrentUser == true) {
+  //   }
+  // }, [isCurrentUser]);
 
   const userUpdateInfo = (
     <div>

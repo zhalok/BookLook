@@ -9,6 +9,9 @@ import { styled } from "@mui/material/styles";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import { useRouter } from "next/router";
+import DeleteButton from "../Buttons/OnHoverContainedOutlinedButton";
+import jwt from "jsonwebtoken";
+import { CoPresent } from "@mui/icons-material";
 
 export default function UserBookCard({ info }) {
   const Demo = styled("div")(({ theme }) => ({
@@ -16,6 +19,33 @@ export default function UserBookCard({ info }) {
   }));
 
   const router = useRouter();
+  const { id } = router.query;
+  const [isCurrentUser, setIsCurrentUser] = React.useState(false);
+  React.useEffect(() => {
+    if (id) {
+      const userToken = localStorage.getItem("userToken");
+      if (userToken) {
+        const userInfo = jwt.decode(userToken);
+        console.log(userInfo);
+        if (userInfo.userId == id) setIsCurrentUser(true);
+        else setIsCurrentUser(false);
+      }
+    }
+  }, [id]);
+  const delete_book = () => {
+    console.log("I am delete book");
+  };
+  const DeleteOption = (
+    <div>
+      <DeleteButton
+        ButtonText={"Delete Book"}
+        OnClickHandler={delete_book}
+        Color="error"
+        DefaultVariant="outlined"
+        HoverVariant="contained"
+      />
+    </div>
+  );
 
   return (
     <Card sx={{ maxWidth: 400 }} elevation={6}>
@@ -55,22 +85,33 @@ export default function UserBookCard({ info }) {
       >
         <div>
           <CardActions>
-            <Button
-              size="large"
-              onClick={() => {
-                router.push(`/read/${info.id}`);
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
               }}
             >
-              Read
-            </Button>
-            <Button
-              size="large"
-              onClick={() => {
-                router.push(`/details/${info.id}`);
-              }}
-            >
-              Details
-            </Button>
+              <div>
+                <Button
+                  size="large"
+                  onClick={() => {
+                    router.push(`/read/${info.id}`);
+                  }}
+                >
+                  Read
+                </Button>
+                <Button
+                  size="large"
+                  onClick={() => {
+                    router.push(`/details/${info.id}`);
+                  }}
+                >
+                  Details
+                </Button>
+              </div>
+              <div>{isCurrentUser ? DeleteOption : ""}</div>
+            </div>
           </CardActions>
         </div>
       </div>
