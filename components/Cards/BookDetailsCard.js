@@ -26,7 +26,6 @@ export default function BookDetailsPage({ user }) {
   const [recommendations, setRecommendations] = React.useState(0);
   const [uploaderId, setUploaderId] = React.useState("");
   const [recommended, setRecommended] = React.useState(false);
-  const [userId, setUserId] = React.useState("");
 
   const [uploader, setUploader] = React.useState("");
   const router = useRouter();
@@ -59,24 +58,22 @@ export default function BookDetailsPage({ user }) {
       .catch((e) => console.log(e));
 
     const userToken = localStorage.getItem("userToken");
-    if (userToken) {
-      const userInfo = jwt.decode(userToken);
-      setUserId(userInfo.userId);
-    }
+    // if (userToken) {
+    //   const userInfo = jwt.decode(userToken);
+    //   setUserId(userInfo.userId);
+    // }
   }, [bookId, user]);
 
   React.useEffect(() => {
-    fetch(`http://localhost:3000/api/user/recommendations?userId=${userId}`)
+    fetch(
+      `http://localhost:3000/api/user/recommendations?userId=${user}&bookId=${bookId}`
+    )
       .then((res) => res.json())
       .then((data) => {
-        data.forEach((e) => {
-          if (e.bookId == bookId) {
-            setRecommended(true);
-          }
-        });
+        if (data.length != 0) setRecommended(true);
       })
       .catch();
-  }, [userId]);
+  }, [user]);
 
   return (
     <div>
@@ -137,7 +134,8 @@ export default function BookDetailsPage({ user }) {
                   });
                   setRecommended(false);
                   fetch(
-                    `http://localhost:3000/api/user/remove-recommendation?userId=${userId}&bookId=${bookId}`
+                    `http://localhost:3000/api/user/remove-recommendation?userId=${user}&bookId=${bookId}`,
+                    { method: "DELETE" }
                   );
                 } else {
                   setRecommendations((prevState) => {
@@ -145,7 +143,7 @@ export default function BookDetailsPage({ user }) {
                   });
                   setRecommended(true);
                   fetch(
-                    `http://localhost:3000/api/books/recommend?userId=${userId}&bookId=${bookId}`
+                    `http://localhost:3000/api/books/recommend?userId=${user}&bookId=${bookId}`
                   );
                 }
               }}
