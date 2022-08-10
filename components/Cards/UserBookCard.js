@@ -11,7 +11,6 @@ import ListItem from "@mui/material/ListItem";
 import { useRouter } from "next/router";
 import DeleteButton from "../Buttons/OnHoverContainedOutlinedButton";
 import jwt from "jsonwebtoken";
-import { CoPresent } from "@mui/icons-material";
 
 export default function UserBookCard({ info }) {
   const Demo = styled("div")(({ theme }) => ({

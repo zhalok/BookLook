@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     for (let i = 0; i < data.length; i++) {
       console.log(data);
       const fileRef = ref(firebaseStorage, `${data[0].id}`);
-      await deleteObject(fileRef);
+      deleteObject(fileRef);
     }
     await new Promise((resolve, reject) => {
       mysqlClient.query(
