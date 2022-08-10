@@ -5,7 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
-import IconButton, { IconButtonProps } from "@mui/material/IconButton";
+import IconButton from "@mui/material/IconButton";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
@@ -26,7 +26,6 @@ export default function BookDetailsPage({ user }) {
   const [recommendations, setRecommendations] = React.useState(0);
   const [uploaderId, setUploaderId] = React.useState("");
   const [recommended, setRecommended] = React.useState(false);
-  const [userId, setUserId] = React.useState("");
 
   const [uploader, setUploader] = React.useState("");
   const router = useRouter();
@@ -43,7 +42,6 @@ export default function BookDetailsPage({ user }) {
         setAuthor(data[0].author);
         setUploaderId(data[0].uploader);
         setPublication(data[0].publication);
-        // setRecommendations(data[0].recommendations);
         setPublication(data[0].publication);
       })
       .catch((e) => console.log(e));
@@ -60,22 +58,22 @@ export default function BookDetailsPage({ user }) {
       .catch((e) => console.log(e));
 
     const userToken = localStorage.getItem("userToken");
-    const userInfo = jwt.decode(userToken);
-    setUserId(userInfo.userId);
+    // if (userToken) {
+    //   const userInfo = jwt.decode(userToken);
+    //   setUserId(userInfo.userId);
+    // }
   }, [bookId, user]);
 
   React.useEffect(() => {
-    fetch(`http://localhost:3000/api/user/recommendations?userId=${userId}`)
+    fetch(
+      `http://localhost:3000/api/user/recommendations?userId=${user}&bookId=${bookId}`
+    )
       .then((res) => res.json())
       .then((data) => {
-        data.forEach((e) => {
-          if (e.bookId == bookId) {
-            setRecommended(true);
-          }
-        });
+        if (data.length != 0) setRecommended(true);
       })
       .catch();
-  }, [userId]);
+  }, [user]);
 
   return (
     <div>
@@ -83,7 +81,7 @@ export default function BookDetailsPage({ user }) {
         <CardHeader
           style={{ cursor: "pointer" }}
           onClick={() => {
-            router.push(`/users/${uploaderId}`);
+            router.push(`/user/${uploaderId}`);
           }}
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe"></Avatar>
@@ -136,7 +134,8 @@ export default function BookDetailsPage({ user }) {
                   });
                   setRecommended(false);
                   fetch(
-                    `http://localhost:3000/api/user/remove-recommendation?userId=${userId}&bookId=${bookId}`
+                    `http://localhost:3000/api/user/remove-recommendation?userId=${user}&bookId=${bookId}`,
+                    { method: "DELETE" }
                   );
                 } else {
                   setRecommendations((prevState) => {
@@ -144,7 +143,7 @@ export default function BookDetailsPage({ user }) {
                   });
                   setRecommended(true);
                   fetch(
-                    `http://localhost:3000/api/books/recommend?userId=${userId}&bookId=${bookId}`
+                    `http://localhost:3000/api/books/recommend?userId=${user}&bookId=${bookId}`
                   );
                 }
               }}

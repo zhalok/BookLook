@@ -9,7 +9,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function SuccessAlert({ open, setOpen, message }) {
+export default function SuccessAlert({ open, setOpen, message, severity }) {
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -43,8 +43,8 @@ export default function SuccessAlert({ open, setOpen, message }) {
         message="Note archived"
         action={action}
       >
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          {}
+        <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
+          {message}
         </Alert>
       </Snackbar>
     </div>

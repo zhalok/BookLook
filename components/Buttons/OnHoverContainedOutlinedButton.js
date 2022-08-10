@@ -26,6 +26,7 @@ export default function OnHoverContainedOutlinedButton({
         onMouseOut={() => {
           setVariant(DefaultVariant);
         }}
+        onClick={OnClickHandler}
       >
         {ButtonText}
       </Button>
