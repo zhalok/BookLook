@@ -5,10 +5,17 @@ export default async function handler(req, res) {
     return;
   }
   try {
-    const { name } = req.body;
+    const { names } = req.body;
+    console.log(names);
+    const _names = [];
+    for (let i = 0; i < names.length; i++) {
+      _names.push([names[i]]);
+    }
+
     const promise = new Promise((resolve, reject) => {
       mysqlClient.query(
-        `insert into courses (name) values ('${name}')`,
+        `insert into courses (name) values ?`,
+        [_names],
         (err, rows, fields) => {
           if (err) {
             // res.json(err);

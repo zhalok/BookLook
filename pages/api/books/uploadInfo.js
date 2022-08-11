@@ -2,7 +2,7 @@ const mysqlClient = require("../../../utils/database_connection");
 
 export default async function handler(req, res) {
   const queryString =
-    "insert into books (name,publication,author,edition,availibility,recommendations,uploader,upload_time) values ?";
+    "insert into books (name,publication,author,edition,availibility,course,recommendations,uploader,upload_time) values ?";
   const {
     name,
     publication,
@@ -10,8 +10,8 @@ export default async function handler(req, res) {
     edition,
     availibility,
     course,
+
     catagories,
-    reviews,
     uploader,
     upload_time,
   } = req.body;
@@ -26,7 +26,8 @@ export default async function handler(req, res) {
         author,
         edition,
         availibility,
-        reviews,
+        course,
+        0,
         uploader,
         upload_time,
       ],

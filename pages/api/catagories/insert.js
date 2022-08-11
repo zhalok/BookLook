@@ -4,12 +4,18 @@ export default async function handler(req, res) {
     res.status(405).json({ message: "wrong method" });
     return;
   }
-  const { name } = req.query;
-  console.log(name);
+  const { names } = req.body;
+
+  const _names = [];
+  for (let i = 0; i < names.length; i++) {
+    _names.push([names[i]]);
+  }
+
   try {
     const promise = new Promise((resolve, reject) => {
       mysqlClient.query(
-        `insert into catagories (name) values ('${name}')`,
+        `insert into catagories (name) values ?`,
+        [_names],
         (err, rows, fields) => {
           if (err) {
             reject(err);
@@ -32,5 +38,7 @@ export default async function handler(req, res) {
     const data = await promise;
     // mysqlClient.end();
     res.json(data);
-  } catch (e) {}
+  } catch (e) {
+    res.json(e);
+  }
 }

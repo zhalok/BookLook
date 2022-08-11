@@ -4,7 +4,7 @@ export default async function handler(req, res) {
     res.status(405).json({ message: "wrong method" });
     return;
   }
-  const { name } = req.body;
+  const { name } = req.query;
   try {
     // mysqlClient.connect();
     const promise = new Promise((resolve, reject) => {
