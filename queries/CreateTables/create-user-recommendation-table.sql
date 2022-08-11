@@ -1,5 +1,5 @@
 -- use bqlz2crijfharfe0jjuo;
-use BookLook;
+-- use BookLook;
 
 create table user_recommendation(
     userId int not null,
