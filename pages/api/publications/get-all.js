@@ -3,13 +3,16 @@ export default async function handler(req, res) {
   try {
     // mysqlClient.connect();
     const promise = new Promise((resolve, reject) => {
-      mysqlClient.query("select * from publications", (err, rows, fields) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(rows);
+      mysqlClient.query(
+        "select publication from books",
+        (err, rows, fields) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(rows);
+          }
         }
-      });
+      );
     });
 
     const response = await promise;

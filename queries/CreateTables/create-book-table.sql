@@ -9,7 +9,7 @@ author varchar(256) not null,
 edition varchar(10) ,
 availibility boolean not null,
 course varchar(256),
-reviews int not null,
+recommendations int not null,
 uploader varchar(256) not null,
 upload_time date not null
 

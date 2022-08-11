@@ -11,7 +11,7 @@ import Catagories from "../components/CheckLists/Catagories";
 import NameField from "../components/TextFields/NameField";
 import AuthorField from "../components/TextFields/AuthorField";
 import UploadSubmitButton from "../components/Buttons/UploadSubmitButton";
-import PublicationField from "../components/SelectFields/PublicationField";
+import PublicationField from "../components/TextFields/PublicationField";
 import EditionField from "../components/TextFields/EditionField";
 import AvailibilityField from "../components/SelectFields/AvailibilityField";
 import { Button } from "@mui/material";
@@ -109,14 +109,13 @@ export default function UploadBook() {
             availibility,
             course,
             catagories: selected_catagories,
-            reviews: 0,
             uploader,
             upload_time: DateGenerator(),
           }),
         }
       );
       const data = await response.json();
-
+      console.log(data);
       const prom = await uploadFile(data[0].id);
 
       setName("");
@@ -133,10 +132,9 @@ export default function UploadBook() {
         catagories[i].selected = false;
     } catch (e) {
       alert(e);
+      console.log(e);
     }
   };
-
-  const upload = () => {};
 
   return (
     <div className={styles.container}>
