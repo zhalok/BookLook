@@ -75,6 +75,7 @@ export default function UploadBook() {
   const uploadFile = async (id) => {
     let promise = new Promise((resolve, reject) => {
       const fileRef = ref(storage, `${id}`);
+      console.log(fileRef);
       uploadBytes(fileRef, file).then(
         (snapshot) => {
           resolve(true);

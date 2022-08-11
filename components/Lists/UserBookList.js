@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Grid";
 import UserBookCard from "../../components/Cards/UserBookCard";
 
-export default function BookList({ booklist }) {
+export default function BookList({ booklist, deleteBook }) {
   return (
     <div>
       <Grid item xs={10} style={{ marginLeft: "auto", marginRight: "auto" }}>
@@ -16,7 +16,7 @@ export default function BookList({ booklist }) {
         >
           {booklist.map((e, index) => (
             <Grid key={index} item xs={3} style={{ marginTop: "20px" }}>
-              <UserBookCard info={e} />
+              <UserBookCard info={e} deleteBook={deleteBook} />
             </Grid>
           ))}
         </Grid>

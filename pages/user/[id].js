@@ -111,6 +111,19 @@ export default function UserProfile() {
       });
   };
 
+  const deleteBook = (bookId) => {
+    setShowProgress(true);
+    fetch(`http://localhost:3000/api/books/delete/${bookId}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setShowProgress(false);
+        window.location.reload();
+      })
+      .catch((e) => console.log(e));
+  };
+
   return (
     <div>
       <Appbar />
@@ -153,7 +166,7 @@ export default function UserProfile() {
             <h1 style={{ marginTop: "0px" }}> Recommendations </h1>
 
             <div style={{ overflowX: "auto" }}>
-              <UserBookList booklist={bookList} />
+              <UserBookList booklist={bookList} deleteBook={deleteBook} />
             </div>
           </div>
 

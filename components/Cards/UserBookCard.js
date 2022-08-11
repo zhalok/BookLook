@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 import DeleteButton from "../Buttons/OnHoverContainedOutlinedButton";
 import jwt from "jsonwebtoken";
 
-export default function UserBookCard({ info }) {
+export default function UserBookCard({ info, deleteBook }) {
   const Demo = styled("div")(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
   }));
@@ -31,14 +31,14 @@ export default function UserBookCard({ info }) {
       }
     }
   }, [id]);
-  const delete_book = () => {
-    console.log("I am delete book");
-  };
+
   const DeleteOption = (
     <div>
       <DeleteButton
         ButtonText={"Delete Book"}
-        OnClickHandler={delete_book}
+        OnClickHandler={() => {
+          deleteBook(info.id);
+        }}
         Color="error"
         DefaultVariant="outlined"
         HoverVariant="contained"
