@@ -12,20 +12,23 @@ export default async function handler(req, res) {
         if (err) reject(err);
         else {
           if (rows.length == 0) {
-            throw new Error("Book not found in database");
+            reject({ message: "Book not found" });
+            return;
           }
           const deleteQueryString = "delete from books where id=?";
           mysqlClient.query(deleteQueryString, [id], (err1) => {
             if (err1) reject(err1);
             else {
-              const fileRef = ref(firebaseStorage, `${id}`);
-              deleteObject(fileRef)
-                .then(() => {
-                  resolve({ message: "Book Deleted Successfully" });
-                })
-                .catch((err2) => {
-                  reject(err2);
-                });
+              resolve({ message: "Book Deleted" });
+              // console.log(id);
+              // const fileRef = ref(firebaseStorage, id);
+              // deleteObject(fileRef)
+              //   .then(() => {
+              //     resolve({ message: "Book Deleted Successfully" });
+              //   })
+              //   .catch((err2) => {
+              //     reject(err2);
+              //   });
             }
           });
         }

@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   }
   try {
     const { names } = req.body;
-    console.log(names);
+
     const _names = [];
     for (let i = 0; i < names.length; i++) {
       _names.push([names[i]]);
